@@ -265,22 +265,27 @@ const Home = () => {
 
 	useEffect(() => {
 		if (titleRef.current) {
+			gsap.fromTo(
+				titleRef.current,
+				{ x: 0, opacity: 1 },
+				{ x: -600, opacity: 0, duration: 2, delay: 2 }
+			)
 			setTimeout(() => {
-				gsap.fromTo(
-					titleRef.current,
-					{ opacity: 0 },
-					{ opacity: 1, duration: 1 }
-				)
-				gsap.fromTo(
-					titleRef.current,
-					{ opacity: 1 },
-					{ opacity: 0, duration: 1, delay: 3 }
-				)
-
 				if (title === 3) {
 					setTitle(0)
+					gsap.fromTo(
+						titleRef.current,
+						{ x: 200, opacity: 0 },
+						{ x: 0, opacity: 1, duration: 1 }
+					)
 				} else {
 					setTitle(title + 1)
+
+					gsap.fromTo(
+						titleRef.current,
+						{ x: 200, opacity: 0 },
+						{ x: 0, opacity: 1, duration: 1 }
+					)
 				}
 			}, [4000])
 		}
@@ -300,9 +305,9 @@ const Home = () => {
 							<div className={styles.Hero_Title_Container}>
 								<h1 className={styles.Hero_Title} data-aos='fade-up'>
 									Servicios de <br />
-									<span className={styles.Hero_Title_Variable} ref={titleRef}>
+									<div className={styles.Hero_Title_Variable} ref={titleRef}>
 										{titles[title]}
-									</span>
+									</div>
 								</h1>
 								<h3
 									className={styles.Hero_Caption}
@@ -806,9 +811,9 @@ const Home = () => {
 					<div className={styles.Hero_Banner}>
 						<div className={styles.Hero_Title_Container}>
 							<h1 className={styles.Hero_Title} data-aos='fade-up'>
-								<span className={styles.Hero_Title_Variable} ref={titleRef}>
+								<div className={styles.Hero_Title_Variable} ref={titleRef}>
 									{titlesEn[title]}
-								</span>
+								</div>
 								<br />
 								Services
 							</h1>
