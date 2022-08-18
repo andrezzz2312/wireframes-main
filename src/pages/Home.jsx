@@ -39,34 +39,6 @@ const Home = () => {
 	const { pathname } = useLocation()
 	const { language } = useContext(AppContext)
 	useEffect(() => {
-		// const canvas = document.querySelector('#c')
-		// const scene = new THREE.Scene()
-		// const camera = new THREE.PerspectiveCamera(
-		// 	50,
-		// 	canvas.innerWidth / canvas.innerHeight,
-		// 	1,
-		// 	1000
-		// )
-		// camera.position.z = 96
-		// const renderer = new THREE.WebGLRenderer({
-		// 	// canvas,
-		// 	antialias: true,
-		// })
-		// renderer.setSize(canvas.innerWidth, canvas.innerHeight)
-		// canvas.appendChild(renderer.domElement)
-		// const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
-		// ambientLight.castShadow = true
-		// scene.add(ambientLight)
-		// const spotLight = new THREE.SpotLight(0xffffff, 1)
-		// spotLight.castShadow = true
-		// spotLight.position.set(0, 64, 32)
-		// scene.add(spotLight)
-		// const animate = () => {
-		// 	renderer.render(scene, camera)
-		// 	window.requestAnimationFrame(animate)
-		// }
-		// animate()
-
 		const canvas = document.querySelector('#c')
 		const renderer = new THREE.WebGLRenderer({ canvas, alpha: true })
 		function makeScene(elem) {
