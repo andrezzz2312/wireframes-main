@@ -39,6 +39,7 @@ const Home = () => {
 	const { pathname } = useLocation()
 	const { language } = useContext(AppContext)
 	useEffect(() => {
+		// asd
 		const canvas = document.querySelector('#c')
 		const renderer = new THREE.WebGLRenderer({ canvas, alpha: true })
 		function makeScene(elem) {
