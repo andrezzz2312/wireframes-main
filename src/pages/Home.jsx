@@ -268,7 +268,7 @@ const Home = () => {
 			gsap.fromTo(
 				titleRef.current,
 				{ x: 0, opacity: 1 },
-				{ x: -600, opacity: 0, duration: 2, delay: 2 }
+				{ x: -400, opacity: 0, duration: 2, delay: 2 }
 			)
 			setTimeout(() => {
 				if (title === 3) {
