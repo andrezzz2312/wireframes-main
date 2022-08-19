@@ -319,6 +319,7 @@ const Home = () => {
 										soluciones digitales
 									</span>
 								</h3>
+
 								<Link
 									to='/contacto'
 									className={styles.Hero_Link}
