@@ -8,14 +8,7 @@
   background-position: center
   position: relative
 
-#c 
-  position: absolute
-  left: 0
-  top: 0
-  width: 100vw
-  height: 100vh
-  display: block
-  // z-index: -1
+
 .c
   position: absolute
   left: 0
@@ -24,6 +17,8 @@
   height: 100vh
   display: block
   z-index: 1000
+  pointer-events: none
+
 .diagram 
   display: inline-block
   width: 5em
@@ -39,10 +34,11 @@
   margin-left: .25em
  
 
-p 
+.threed
   margin: 1em auto
   max-width: 500px
   font-size: xx-large
+ 
 
 
 
@@ -62,14 +58,16 @@ p
     margin: 0
     color: $cyan
     font-family: 'Font-Condensed-Bold', sans-serif
-    font-size: 90px
+    font-size: 60px
+    line-height: 90px
+    padding-bottom: 1rem
     &_Variable
       opacity: 1
   &_Caption
     margin: 0
     color: $gray
     font-family: 'Font-Condensed-Regular', sans-serif
-    font-size: 36px
+    font-size: 26px
     font-weight: 300
     &_Highlight
       font-family: 'Font-Condensed-Bold', sans-serif
@@ -144,12 +142,12 @@ p
     justify-content: space-between
     align-items: flex-start
     &_Title
-      margin: 0 0 .5rem
+      margin: 0
       color: $cyan
       font-family: "Font-Bold", sans-serif
       font-size: 20px
     &_Text
-      margin: 0
+      margin: 0 0 1.5rem
       font-size: 18px
 
 
@@ -237,12 +235,12 @@ p
     align-items: flex-start
   &_Title
     margin-top: 0
-    margin-bottom: 2rem
+    margin-bottom: 1rem
     color: $gray-dark
     font-family: 'Font-Condensed-Bold', sans-serif
-    font-size: 26px
+    font-size: 24px
   &_Text
-    font-size: 18px
+    font-size: 16px
     font-weight: 300
   &_Link
     color: $gray-dark
@@ -307,11 +305,16 @@ p
   color: $white
   p
     margin: 30px 0 0
+    text-align: justify
+    hyphens: auto
+    -webkit-hyphens: auto
+    // word-spacing: -0.05em    
   &_Image
     width: 40%
   &_Title
     margin: 10px 0 0
-    font-size: 20px
+    font-size: 30px
+    color: $cyan-light
 
 .Sector_Swiper
   display: none
@@ -364,14 +367,15 @@ p
     margin-top: 0
     font-size: 28px
   &_Button
-    width: 190px
-    height: 60px
+    // width: 190px
+    // height: 60px
     border-radius: 12px
-    padding: 16px 24px
+    padding: 18px 18px
     display: flex
     justify-content: center
     align-items: center
-    background: conic-gradient(from 180deg at 50% 50%, #419FB1 -16.88deg, #55CBD8 131.25deg, #419FB1 243.75deg, #419FB1 343.12deg, #55CBD8 491.25deg)
+    // background: conic-gradient(from 90deg at 50% 50%, #419FB1 -16.88deg, #55CBD8 131.25deg, #419FB1 243.75deg, #419FB1 343.12deg, #55CBD8 491.25deg)
+    background: radial-gradient(at 50% 0%, #55CBD8 10px,#55CBD8 30px, #419FB1  50%)
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25)
     text-transform: uppercase
     font-family: 'Font-Condensed-Bold', sans-serif
@@ -425,9 +429,10 @@ p
 @media (max-width: 992px)
   .Hero
     &_Title
-      font-size: 70px
+      font-size: 40px
+      line-height: 60px
     &_Caption
-      font-size: 26px
+      font-size: 20px
     &_Link
       font-size: 18px
   .Visor_Container
@@ -507,7 +512,7 @@ p
     padding: 60px 0
   .ServiceCard
     &_Text_Container
-      padding: 14px 10px
+      padding: 15px 15px
   .Sectors
     padding: 60px 0
   .SectorCard
@@ -524,9 +529,11 @@ p
 @media (max-width: 576px)
   .Hero
     &_Title
-      font-size: 50px
+      font-size: 30px
+      
+      line-height: 50px
     &_Caption
-      font-size: 28px
+      font-size: 18px
     &_Link
       font-size: 18px
   .Visor

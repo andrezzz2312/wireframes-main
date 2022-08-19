@@ -335,18 +335,18 @@ const Home = () => {
 							data-aos="zoom-in"
 						/> */}
 							<canvas id='c' className={styles.c}></canvas>
-							<p>
+							<div className={styles.threed}>
 								<span
 									id='box'
 									className={`${styles.diagram} ${styles.left}`}
 								></span>
-							</p>
-							<p>
+							</div>
+							<div className={styles.threed}>
 								<span
 									id='pyramid'
 									className={`${styles.diagram} ${styles.right}`}
 								></span>
-							</p>
+							</div>
 						</div>
 					</div>
 
