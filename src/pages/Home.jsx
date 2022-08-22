@@ -319,15 +319,14 @@ const Home = () => {
 										soluciones digitales
 									</span>
 								</h3>
-
-								<Link
-									to='/contacto'
-									className={styles.Hero_Link}
-									data-aos='fade-up'
-									data-aos-delay='500'
-								>
-									Contáctanos
-								</Link>
+								<div data-aos='fade-up' data-aos-delay='500'>
+									<Link
+										to='/contacto'
+										className={`${styles.Hero_Link} transition-all`}
+									>
+										Contáctanos
+									</Link>
+								</div>
 							</div>
 							{/* <img
 							src={Planet}
@@ -767,20 +766,16 @@ const Home = () => {
 					/>
 					<div className={styles.Idea_Text_Container}>
 						<h2 className={styles.Idea_Title} data-aos='fade-up'>
-							¿Tienes una idea brillante
+							¿Tienes una idea brillante?
 						</h2>
 						<p className={styles.Idea_Text} data-aos='fade-up'>
-							y no sabes cómo desarrollarla?
+							¿no sabes cómo desarrollarla?
 						</p>
-
-						<Link
-							to='/contacto'
-							className={styles.Idea_Button}
-							data-aos='fade-up'
-							data-aos-delay='250'
-						>
-							Conversemos
-						</Link>
+						<div data-aos='fade-up' data-aos-delay='250'>
+							<Link to='/contacto' className={styles.Idea_Button}>
+								Conversemos
+							</Link>
+						</div>
 					</div>
 					<img
 						src={DetailWhite}
@@ -828,14 +823,16 @@ const Home = () => {
 									digital solutions
 								</span>
 							</h3>
-							<Link
-								to='/contacto'
-								className={styles.Hero_Link}
-								data-aos='fade-up'
-								data-aos-delay='500'
-							>
-								Contact Us
-							</Link>
+							<div data-aos='fade-up' data-aos-delay='500'>
+								<Link
+									to='/contacto'
+									className={styles.Hero_Link}
+									data-aos='fade-up'
+									data-aos-delay='500'
+								>
+									Contact Us
+								</Link>
+							</div>
 						</div>
 						<img
 							src={Planet}

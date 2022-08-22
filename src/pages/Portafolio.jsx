@@ -23,150 +23,182 @@ const Portafolio = () => {
 			title: 'Luxury Apartment',
 			topic: 'Realidad Virtual',
 			image: Project1,
-			link: 'https://wireframereality.com/Verge3D/studio_apartment/'
-		}, {
+			link: 'https://wireframereality.com/Verge3D/studio_apartment/',
+		},
+		{
 			title: 'Streaming Room',
 			topic: 'Servicios de Metaverso',
 			image: Project2,
-			link: ''
-		}, {
-			title: 'Green Filters',
-			topic: 'Experiencias 3D en la Web',
-			image: Project3,
-			link: ''
-		}, {
+			link: '',
+		},
+
+		{
 			title: 'Blue Moon',
 			topic: 'Servicios de Metaverso',
 			image: Project4,
-			link: ''
-		}, {
+			link: '',
+		},
+
+		{
 			title: 'Bill & Melinda Gates Foundation',
 			topic: 'Servicios de Metaverso',
 			image: Project5,
-			link: ''
-		}, {
+			link: '',
+		},
+		{
+			title: 'Green Filters',
+			topic: 'Experiencias 3D en la Web',
+			image: Project3,
+			link: '',
+		},
+		{
 			title: 'One Laptop Per Kid',
 			topic: 'Experiencias 3D en la Web',
 			image: Project6,
-			link: ''
-		}, {
-			title: 'Furniture A/R',
-			topic: 'Realidad Aumentada',
-			image: Project7,
-			link: ''
-		}, {
+			link: '',
+		},
+		{
 			title: 'Furniture Configurator',
 			topic: 'Experiencias 3D en la Web',
 			image: Project8,
-			link: 'https://wireframereality.com/Verge3D/furniture_configurator_v2/'
-		}, {
+			link: 'https://wireframereality.com/Verge3D/furniture_configurator_v2/',
+		},
+		{
 			title: 'Syringe Assenbly Simulation',
 			topic: 'Experiencias 3D en la Web',
 			image: Project9,
-			link: 'https://wireframereality.com/Verge3D/lab_simulation/'
-		}
+			link: 'https://wireframereality.com/Verge3D/lab_simulation/',
+		},
+		{
+			title: 'Furniture A/R',
+			topic: 'Realidad Aumentada',
+			image: Project7,
+			link: '',
+		},
 	]
 	const projectsEn = [
 		{
 			title: 'Luxury Apartment',
 			topic: 'Virtual Reality',
 			image: Project1,
-			link: 'https://wireframereality.com/Verge3D/studio_apartment/'
-		}, {
+			link: 'https://wireframereality.com/Verge3D/studio_apartment/',
+		},
+		{
 			title: 'Streaming Room',
 			topic: 'Metaverse Services',
 			image: Project2,
-			link: ''
-		}, {
+			link: '',
+		},
+		{
 			title: 'Green Filters',
 			topic: '3D Web Experiencies',
 			image: Project3,
-			link: ''
-		}, {
+			link: '',
+		},
+		{
 			title: 'Blue Moon',
 			topic: 'Metaverse Services',
 			image: Project4,
-			link: ''
-		}, {
+			link: '',
+		},
+		{
 			title: 'Bill & Melinda Gates Foundation',
 			topic: 'Metaverse Services',
 			image: Project5,
-			link: ''
-		}, {
+			link: '',
+		},
+		{
 			title: 'One Laptop Per Kid',
 			topic: '3D Web Experiencies',
 			image: Project6,
-			link: ''
-		}, {
+			link: '',
+		},
+		{
 			title: 'Furniture A/R',
 			topic: 'Augmented Reality',
 			image: Project7,
-			link: ''
-		}, {
+			link: '',
+		},
+		{
 			title: 'Furniture Configurator',
 			topic: '3D Web Experiencies',
 			image: Project8,
-			link: 'https://wireframereality.com/Verge3D/furniture_configurator_v2/'
-		}, {
+			link: 'https://wireframereality.com/Verge3D/furniture_configurator_v2/',
+		},
+		{
 			title: 'Syringe Assenbly Simulation',
 			topic: '3D Web Experiencies',
 			image: Project9,
-			link: 'https://wireframereality.com/Verge3D/lab_simulation/'
-		}
+			link: 'https://wireframereality.com/Verge3D/lab_simulation/',
+		},
 	]
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
 	}, [pathname])
 
-	if (language === 'es') return (
-		<main className={styles.main}>
-			<Helmet>
-				<title>Portafolio | Wireframe Reality</title>
-			</Helmet>
+	if (language === 'es')
+		return (
+			<main className={styles.main}>
+				<Helmet>
+					<title>Portafolio | Wireframe Reality</title>
+				</Helmet>
 
-			{/* Hero */}
-			<section className={`${styles.Hero_Container_Fluid} container-fluid`}>
-				<div className={`${styles.Hero} container`}>
-					<h1 className={styles.Hero_Title} data-aos="fade-up">Nuestros Proyectos</h1>
-					<p className={styles.Hero_Text} data-aos="fade-up" data-aos-delay="150">
-						Conoce un poco sobre nuestro desempeño, y cómo hemos implementado
-						la realidad virtual y la realidad aumentada.
-					</p>
-				</div>
-			</section>
+				{/* Hero */}
+				<section className={`${styles.Hero_Container_Fluid} container-fluid`}>
+					<div className={`${styles.Hero} container`}>
+						<h1 className={styles.Hero_Title} data-aos='fade-up'>
+							Nuestros Proyectos
+						</h1>
+						<p
+							className={styles.Hero_Text}
+							data-aos='fade-up'
+							data-aos-delay='150'
+						>
+							Conoce un poco sobre nuestro desempeño, y cómo hemos implementado
+							la realidad virtual y la realidad aumentada.
+						</p>
+					</div>
+				</section>
 
-			{/* Projects */}
-			<section className={`${styles.Project_Container_Fluid} container-fluid`}>
-				<div className={`${styles.Project_Cards_Container} row`}>
-					{projects.map((project, index) => (
-						<div key={`Project-Card-${index}`} className="col-12 col-sm-6 col-md-4 p-0">
-							<div className={styles.Project_Card} data-aos="zoom-in">
-								<img
-									className={styles.Project_Image}
-									src={project.image}
-									alt={project.title}
-									title={project.title}
-								/>
-								<div className={styles.Project_Topic_Container}>
-									<span className={styles.Project_Topic}>{project.topic}</span>
-								</div>
-								<div className={styles.Project_Title_Container}>
-									<h4 className={styles.Project_Title}>{project.title}</h4>
+				{/* Projects */}
+				<section className={`${styles.Hero_Container_Fluid} container-fluid`}>
+					<div className={`${styles.Project_Cards_Container} row`}>
+						{projects.map((project, index) => (
+							<div
+								key={`Project-Card-${index}`}
+								className='col-12 col-sm-6 col-md-4 p-0 '
+							>
+								<div data-aos='zoom-in'>
+									<div className={styles.Project_Card}>
+										<img
+											className={styles.Project_Image}
+											src={project.image}
+											alt={project.title}
+											title={project.title}
+										/>
+										<div className={styles.Project_Topic_Container}>
+											<span className={styles.Project_Topic}>
+												{project.topic}
+											</span>
+										</div>
+										<div className={styles.Project_Title_Container}>
+											<h4 className={styles.Project_Title}>{project.title}</h4>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-					))}
-				</div>
-			</section>
+						))}
+					</div>
+				</section>
 
-			<section className={`${styles.Companies} container-fluid`}>
-				<div className='container py-5'>
-					<Companies/>
-				</div>
-			</section>
-		</main>
-	)
+				<section className={`${styles.Companies} container-fluid`}>
+					<div className='container py-5'>
+						<Companies />
+					</div>
+				</section>
+			</main>
+		)
 
 	return (
 		<main className={styles.main}>
@@ -177,10 +209,16 @@ const Portafolio = () => {
 			{/* Hero */}
 			<section className={`${styles.Hero_Container_Fluid} container-fluid`}>
 				<div className={`${styles.Hero} container`}>
-					<h1 className={styles.Hero_Title} data-aos="fade-up">Our projects</h1>
-					<p className={styles.Hero_Text} data-aos="fade-up" data-aos-delay="150">
-						Learn a little about our performance, and how we have
-						implemented virtual reality and augmented reality.
+					<h1 className={styles.Hero_Title} data-aos='fade-up'>
+						Our projects
+					</h1>
+					<p
+						className={styles.Hero_Text}
+						data-aos='fade-up'
+						data-aos-delay='150'
+					>
+						Learn a little about our performance, and how we have implemented
+						virtual reality and augmented reality.
 					</p>
 				</div>
 			</section>
@@ -189,27 +227,37 @@ const Portafolio = () => {
 			<section className={`${styles.Project_Container_Fluid} container-fluid`}>
 				<div className={`${styles.Project_Cards_Container} row`}>
 					{projectsEn.map((project, index) => {
-						if(project.link) return (
-							<a className={`${styles.Project_Card_Link} col-12 col-sm-6 col-md-4 p-0`} key={`Project-Card-${index}`} href={project.link}>
-								<div className={styles.Project_Card} data-aos="zoom-in">
-									<img
-										className={styles.Project_Image}
-										src={project.image}
-										alt={project.title}
-										title={project.title}
-									/>
-									<div className={styles.Project_Topic_Container}>
-										<span className={styles.Project_Topic}>{project.topic}</span>
+						if (project.link)
+							return (
+								<a
+									className={`${styles.Project_Card_Link} col-12 col-sm-6 col-md-4 p-0`}
+									key={`Project-Card-${index}`}
+									href={project.link}
+								>
+									<div className={styles.Project_Card} data-aos='zoom-in'>
+										<img
+											className={styles.Project_Image}
+											src={project.image}
+											alt={project.title}
+											title={project.title}
+										/>
+										<div className={styles.Project_Topic_Container}>
+											<span className={styles.Project_Topic}>
+												{project.topic}
+											</span>
+										</div>
+										<div className={styles.Project_Title_Container}>
+											<h4 className={styles.Project_Title}>{project.title}</h4>
+										</div>
 									</div>
-									<div className={styles.Project_Title_Container}>
-										<h4 className={styles.Project_Title}>{project.title}</h4>
-									</div>
-								</div>
-							</a>
-						)
+								</a>
+							)
 						return (
-							<div key={`Project-Card-${index}`} className="col-12 col-sm-6 col-md-4 p-0">
-								<div className={styles.Project_Card} data-aos="zoom-in">
+							<div
+								key={`Project-Card-${index}`}
+								className='col-12 col-sm-6 col-md-4 p-0'
+							>
+								<div className={styles.Project_Card} data-aos='zoom-in'>
 									<img
 										className={styles.Project_Image}
 										src={project.image}
@@ -217,7 +265,9 @@ const Portafolio = () => {
 										title={project.title}
 									/>
 									<div className={styles.Project_Topic_Container}>
-										<span className={styles.Project_Topic}>{project.topic}</span>
+										<span className={styles.Project_Topic}>
+											{project.topic}
+										</span>
 									</div>
 									<div className={styles.Project_Title_Container}>
 										<h4 className={styles.Project_Title}>{project.title}</h4>
@@ -231,7 +281,7 @@ const Portafolio = () => {
 
 			<section className={`${styles.Companies} container-fluid`}>
 				<div className='container py-5'>
-					<Companies/>
+					<Companies />
 				</div>
 			</section>
 		</main>

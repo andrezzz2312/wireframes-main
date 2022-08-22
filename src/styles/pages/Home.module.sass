@@ -75,11 +75,12 @@
     margin-top: 30px
     border-radius: 10px
     padding: 18px 26px
-    background-color: $cyan
+    background-color: $cyan    
     display: inline-block
     text-transform: uppercase
     font-family: 'Font-Condensed-Bold', sans-serif
     font-size: 28px
+    transition: all 0.3s ease
     &:hover
       color: $white
       background-color: $cyan-dark
@@ -123,18 +124,17 @@
     justify-content: center
     align-items: center
     position: absolute
-    bottom: -60px
+    bottom: -50px
     left: calc(50% - 50px)
     transform: rotate(45deg)
+    transition: all 0.5s ease
     &:hover
       background-color: $gray-dark
     &_Icon
-      width: 26px
-      filter: drop-shadow(3px 4px 4px rgba(0, 0, 0, 0.1))
+      width: 60px
+      // filter: drop-shadow(3px 4px 4px rgba(0, 0, 0, 0.1))
       transform: rotate(-45deg)
-      position: absolute
-      top: calc(50% - 20px)
-      left: calc(50% - 13px)
+    
   &_Data
     padding-left: 5% !important
     display: flex
@@ -182,10 +182,11 @@
   display: flex
   position: relative
   box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.3)
+  border-radius: 1rem
   &_Image_Container
     width: 50%
     height: 100%
-    border-radius: 5px 0 0 5px
+    border-radius:1rem 0 0 1rem
     display: flex
     justify-content: center
     align-items: center
@@ -225,7 +226,7 @@
   &_Text_Container
     width: 50%
     height: 100%
-    border-radius: 0 5px 5px 0
+    border-radius: 0 1rem 1rem 0
     padding: 25px 20px
     background-color: $white
     text-align: left
@@ -245,7 +246,8 @@
   &_Link
     color: $gray-dark
     font-family: 'Font-Bold', sans-serif
-    font-size: 20px
+    font-size: 20px  
+    transition: all 0.3s ease-in-out  
     &:hover
       color: $cyan
   &_Detail_White
@@ -258,7 +260,7 @@
     width: 20px
     position: absolute
     top: calc(50% - 10px)
-    left: -19px
+    left: -18px
 
 
 // Sectors
@@ -292,28 +294,28 @@
 .SectorCard
   width: 100%
   height: 100%
-  border: 1px solid $cyan-light
-  border-radius: 5px
+  border: 2px solid $cyan-light
+  border-radius: 1rem
   padding: 20px
   box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4)
   display: grid
   grid-template-columns: 1fr
-  grid-template-rows: 150px 40px auto
+  grid-template-rows: 150px max-content auto
   flex-direction: column
   justify-items: center
   align-items: flex-start
   color: $white
   p
-    margin: 30px 0 0
+    margin: 20px 0 0
     text-align: justify
     hyphens: auto
     -webkit-hyphens: auto
     // word-spacing: -0.05em    
   &_Image
-    width: 40%
+    width: 40%   
   &_Title
     margin: 10px 0 0
-    font-size: 30px
+    font-size: 25px
     color: $cyan-light
 
 .Sector_Swiper
@@ -339,7 +341,6 @@
   height: 300px !important
   display: flex
   justify-content: center
-
 
 // Idea
 .Idea
@@ -376,13 +377,25 @@
     align-items: center
     // background: conic-gradient(from 90deg at 50% 50%, #419FB1 -16.88deg, #55CBD8 131.25deg, #419FB1 243.75deg, #419FB1 343.12deg, #55CBD8 491.25deg)
     background: radial-gradient(at 50% 0%, #55CBD8 10px,#55CBD8 30px, #419FB1  50%)
+    // background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)
+    background-size: 200% 200%
+    background-position: 50% 100%
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25)
     text-transform: uppercase
     font-family: 'Font-Condensed-Bold', sans-serif
     font-size: 26px
+    transition: all 0.5s ease
     &:hover
       color: $white
-      opacity: .8
+      // opacity: .8
+      // animation: gradient 1s linear 
+      background-position: 50% 0%
+ 
+      
+ 
+
+      
+
 
 
 // Contact
@@ -516,7 +529,7 @@
   .Sectors
     padding: 60px 0
   .SectorCard
-    grid-template-rows: 100px 40px auto
+    grid-template-rows: 100px max-content auto
     &_Image
       width: unset
       height: 90%
@@ -565,23 +578,30 @@
   .Sectors
     &_Title
       font-size: 30px
+     
     &_Caption
       margin-bottom: 50px
       font-size: 20px
   .SectorCard
     aspect-ratio: 19 /  17
     height: unset
-    grid-template-rows: auto auto auto
+    grid-template-rows: max-content max-content auto
     &_Image
-      width: 40%
-      height: unset
+      width: 30%
+      height: unset 
+      margin-bottom: 13px   
+    &_Title
+      margin-top: 0px
+      line-height: 30px
     p
-      margin-top: 16px
+      font-size: 14px
+      margin-top: 10px
   .Sector_Swiper
     display: block
   .Idea
     &_Title
       font-size: 30px
+      text-align: center
     &_Text
       margin-top: 0
       font-size: 20px
