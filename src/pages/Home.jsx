@@ -41,10 +41,20 @@ const Home = () => {
 	useEffect(() => {
 		const canvas = document.querySelector('#c')
 		const renderer = new THREE.WebGLRenderer({ canvas, alpha: true })
+		var body = document.body,
+			html = document.documentElement
+
+		var heightHTML = Math.max(
+			body.scrollHeight,
+			body.offsetHeight,
+			html.clientHeight,
+			html.scrollHeight,
+			html.offsetHeight
+		)
 		function makeScene(elem) {
 			const scene = new THREE.Scene()
 			const fov = 45
-			const aspect = canvas.innerWidth / canvas.innerHeight // the canvas default
+			const aspect = canvas.innerWidth / heightHTML // the canvas default
 			const near = 0.1
 			const far = 5
 			const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
@@ -89,10 +99,11 @@ const Home = () => {
 		}
 		const sceneInfo1 = setupScene1()
 		const sceneInfo2 = setupScene2()
+
 		function resizeRendererToDisplaySize(renderer) {
 			const canvas = renderer.domElement
 			const width = canvas.clientWidth
-			const height = canvas.clientHeight
+			const height = heightHTML
 			const needResize = canvas.width !== width || canvas.height !== height
 			if (needResize) {
 				renderer.setSize(width, height, false)
@@ -299,6 +310,7 @@ const Home = () => {
 				</Helmet>
 
 				{/* Hero */}
+				<canvas id='c' className={styles.c}></canvas>
 				<section className={`${styles.Hero_Container_Fluid} container-fluid`}>
 					<div className={`${styles.Hero} container p-0`}>
 						<div className={styles.Hero_Banner}>
@@ -334,7 +346,7 @@ const Home = () => {
 							alt="Wireframes Planet"
 							data-aos="zoom-in"
 						/> */}
-							<canvas id='c' className={styles.c}></canvas>
+
 							<div className={styles.threed}>
 								<span
 									id='box'

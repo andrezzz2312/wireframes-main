@@ -5,15 +5,17 @@ import Footer from '../containers/Footer'
 const Layout = ({ children }) => {
 	return (
 		<>
-			<Header/>
-			{ children }
-			<Footer/>
+			<Header />
+
+			{children}
+
+			<Footer />
 		</>
 	)
 }
 
 Layout.propTypes = {
-	children: propTypes.node.isRequired
+	children: propTypes.node.isRequired,
 }
 
 export default Layout
