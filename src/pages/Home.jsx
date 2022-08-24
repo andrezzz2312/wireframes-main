@@ -32,6 +32,13 @@ import DetailCyan from '../assets/details/bottom-detail-cyan.svg'
 import SwiperPrevButton from '../assets/details/swiper-left.svg'
 import SwiperNextButton from '../assets/details/swiper-right.svg'
 import * as THREE from 'three'
+// import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+// import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+// import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+// import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
+// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+// import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
 
 const Home = () => {
 	const [title, setTitle] = useState(0)
@@ -39,27 +46,38 @@ const Home = () => {
 	const { pathname } = useLocation()
 	const { language } = useContext(AppContext)
 	useEffect(() => {
-		const canvas = document.querySelector('#c')
-		const renderer = new THREE.WebGLRenderer({ canvas, alpha: true })
-		var body = document.body,
-			html = document.documentElement
+		const canvas = document.createElement('canvas')
+		const renderer = new THREE.WebGLRenderer({
+			antialias: true,
+			canvas,
+			alpha: true,
+		})
+		renderer.setScissorTest(true)
 
-		var heightHTML = Math.max(
-			body.scrollHeight,
-			body.offsetHeight,
-			html.clientHeight,
-			html.scrollHeight,
-			html.offsetHeight
-		)
+		const sceneElements = []
+		function addScene(elem, fn) {
+			const ctx = document.createElement('canvas').getContext('2d')
+			elem.appendChild(ctx.canvas)
+			sceneElements.push({ elem, ctx, fn })
+		}
+		const box = document.querySelector('#box')
+		const background = document.querySelector('#background')
 		function makeScene(elem) {
 			const scene = new THREE.Scene()
-			const fov = 45
-			const aspect = canvas.innerWidth / heightHTML // the canvas default
+
+			const fov = 75
+			const aspect = box.clientWidth / box.clientHeight // the canvas default
 			const near = 0.1
-			const far = 5
+			const far = 100
 			const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-			camera.position.set(0, 1, 2)
+			camera.position.set(0, 0, 1.5)
 			camera.lookAt(0, 0, 0)
+			scene.add(camera)
+
+			const controls = new OrbitControls(camera, elem)
+			controls.noZoom = true
+			controls.noPan = true
+
 			{
 				const color = 0xffffff
 				const intensity = 1
@@ -67,82 +85,191 @@ const Home = () => {
 				light.position.set(-1, 2, 4)
 				scene.add(light)
 			}
-			return { scene, camera, elem }
-		}
-		function setupScene1() {
-			const sceneInfo = makeScene(document.querySelector('#box'))
-			const geometry = new THREE.BoxBufferGeometry(1, 1, 1)
-			const material = new THREE.MeshPhongMaterial({ color: 'red' })
-			const mesh = new THREE.Mesh(geometry, material)
-			sceneInfo.scene.add(mesh)
-			sceneInfo.mesh = mesh
-			return sceneInfo
-		}
-		function setupScene2() {
-			const sceneInfo = makeScene(document.querySelector('#pyramid'))
-			const radius = 0.8
-			const widthSegments = 4
-			const heightSegments = 2
-			const geometry = new THREE.SphereBufferGeometry(
-				radius,
-				widthSegments,
-				heightSegments
-			)
-			const material = new THREE.MeshPhongMaterial({
-				color: 'blue',
-				flatShading: true,
-				// asd
-			})
-			const mesh = new THREE.Mesh(geometry, material)
-			sceneInfo.scene.add(mesh)
-			sceneInfo.mesh = mesh
-			return sceneInfo
-		}
-		const sceneInfo1 = setupScene1()
-		const sceneInfo2 = setupScene2()
 
-		function resizeRendererToDisplaySize(renderer) {
-			const canvas = renderer.domElement
-			const width = canvas.clientWidth
-			const height = heightHTML
-			const needResize = canvas.width !== width || canvas.height !== height
-			if (needResize) {
-				renderer.setSize(width, height, false)
-			}
-			return needResize
+			return { scene, camera, controls }
 		}
-		function rendenerSceneInfo(sceneInfo) {
-			const { scene, camera, elem } = sceneInfo
-			// get the viewport relative position opf this element
-			const { left, right, top, bottom, width, height } =
-				elem.getBoundingClientRect()
-			const isOffscreen =
-				bottom < 0 ||
-				top > renderer.domElement.clientHeight ||
-				right < 0 ||
-				left > renderer.domElement.clientWidth
-			if (isOffscreen) {
-				return
-			}
-			camera.aspect = width / height
-			camera.updateProjectionMatrix()
-			const positiveYUpBottom = renderer.domElement.clientHeight - bottom
-			renderer.setScissor(left, positiveYUpBottom, width, height)
-			renderer.setViewport(left, positiveYUpBottom, width, height)
-			renderer.render(scene, camera)
+
+		const texturePath = '../../assets/texture/grid.png'
+		const DISPLACEMENT_PATH =
+			'https://res.cloudinary.com/dg5nsedzw/image/upload/v1641657200/blog/vaporwave-threejs-textures/displacement.png'
+
+		const textureLoader = new THREE.TextureLoader()
+		const gridtexture = textureLoader.load(texturePath)
+		const terraintexture = textureLoader.load(DISPLACEMENT_PATH)
+
+		const sceneInitFunctionsByName = {
+			box: (elem) => {
+				const { scene, camera, controls } = makeScene(elem)
+
+				const geometry = new THREE.BoxBufferGeometry(1, 1, 1)
+				const material = new THREE.MeshPhongMaterial({ color: 'red' })
+				const mesh = new THREE.Mesh(geometry, material)
+				scene.add(mesh)
+				return (time, rect) => {
+					mesh.rotation.y = time * 0.1
+					camera.aspect = rect.width / rect.height
+					camera.updateProjectionMatrix()
+					// controls.handleResize()
+					controls.update()
+					renderer.render(scene, camera)
+				}
+			},
+			background: (elem) => {
+				const { scene, controls } = makeScene(elem)
+				var camera = new THREE.PerspectiveCamera(
+					75,
+					background.clientWidth / background.clientHeight,
+					0.01,
+					20
+				)
+				camera.position.set(0, 0.06, 1.1)
+				var geometry = new THREE.PlaneBufferGeometry(1, 2, 24, 24)
+				var material = new THREE.MeshStandardMaterial({
+					map: gridtexture,
+					displacementMap: terraintexture,
+					displacementScale: 0.2,
+
+					metalness: 0.95,
+					roughness: 0.5,
+				})
+
+				var plano = new THREE.Mesh(geometry, material)
+				plano.rotation.x = -Math.PI * 0.5
+				plano.position.set(0, 0, 0.15)
+
+				var plano2 = new THREE.Mesh(geometry, material)
+				plano2.rotation.x = -Math.PI * 0.5
+				plano2.position.set(0, 0, -1.85)
+
+				scene.add(plano, plano2)
+				// //luces ambientales
+				// var ambient = new THREE.AmbientLight(0xffffff, 10)
+				// //var directional = new THREE.DirectionalLight(0xffffff, 0.9)
+				// scene.add(ambient)
+				// const spotlight = new THREE.SpotLight(
+				// 	'#d53c3d',
+				// 	20,
+				// 	25,
+				// 	Math.PI * 0.1,
+				// 	0.25
+				// )
+				// spotlight.position.set(0.5, 0.75, 2.2)
+				// // Target the spotlight to a specific point to the left of the scene
+				// spotlight.target.position.x = -0.25
+				// spotlight.target.position.y = 0.25
+				// spotlight.target.position.z = 0.25
+				// scene.add(spotlight)
+				// scene.add(spotlight.target)
+				// const spotlight2 = new THREE.SpotLight(
+				// 	'#d53c3d',
+				// 	20,
+				// 	25,
+				// 	Math.PI * 0.1,
+				// 	0.25
+				// )
+				// spotlight2.position.set(-0.5, 0.75, 2.2)
+				// // Target the spotlight to a specific point to the right side of the scene
+				// spotlight2.target.position.x = 0.25
+				// spotlight2.target.position.y = 0.25
+				// spotlight2.target.position.z = 0.25
+				// scene.add(spotlight2)
+				// scene.add(spotlight2.target)
+
+				// // Post Processing
+				// // Add the effectComposer
+				// const effectComposer = new EffectComposer(renderer)
+				// effectComposer.setSize(box.clientWidth, box.clientHeight)
+				// effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+				// /**
+				//  * Add the render path to the composer
+				//  * This pass will take care of rendering the final scene
+				//  */
+				// const renderPass = new RenderPass(scene, camera)
+				// effectComposer.addPass(renderPass)
+
+				// const rgbShiftPass = new ShaderPass(RGBShiftShader)
+				// rgbShiftPass.uniforms['amount'].value = 0.0015
+
+				// effectComposer.addPass(rgbShiftPass)
+
+				// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader)
+				// effectComposer.addPass(gammaCorrectionPass)
+				const clock = new THREE.Clock()
+
+				return () => {
+					const elapsedTime = clock.getElapsedTime()
+					camera.updateProjectionMatrix()
+					// controls.handleResize()
+					controls.update()
+					renderer.render(scene, camera)
+					// effectComposer.render()
+
+					plano.position.z = (elapsedTime * 0.15) % 2
+
+					plano2.position.z = ((elapsedTime * 0.15) % 2) - 2
+				}
+			},
 		}
+
+		document.querySelectorAll('[data-diagram]').forEach((elem) => {
+			const sceneName = elem.dataset.diagram
+			const sceneInitFunction = sceneInitFunctionsByName[sceneName]
+			const sceneRenderFunction = sceneInitFunction(elem)
+			addScene(elem, sceneRenderFunction)
+		})
+
 		function render(time) {
 			time *= 0.001
-			resizeRendererToDisplaySize(renderer)
-			renderer.setScissorTest(false)
-			renderer.clear(true, true)
-			renderer.setScissorTest(true)
-			sceneInfo1.mesh.rotation.y = time * 0.1
-			sceneInfo2.mesh.rotation.y = time * 0.1
-			rendenerSceneInfo(sceneInfo1)
-			rendenerSceneInfo(sceneInfo2)
+
+			for (const { elem, fn, ctx } of sceneElements) {
+				// get the viewport relative position of this element
+				const rect = elem.getBoundingClientRect()
+				const { left, right, top, bottom, width, height } = rect
+				const rendererCanvas = renderer.domElement
+
+				const isOffscreen =
+					bottom < 0 ||
+					top > window.innerHeight ||
+					right < 0 ||
+					left > window.innerWidth
+
+				if (!isOffscreen) {
+					// make sure the renderer's canvas is big enough
+					if (rendererCanvas.width < width || rendererCanvas.height < height) {
+						renderer.setSize(width, height, false)
+					}
+
+					// make sure the canvas for this area is the same size as the area
+					if (ctx.canvas.width !== width || ctx.canvas.height !== height) {
+						ctx.canvas.width = width
+						ctx.canvas.height = height
+					}
+
+					renderer.setScissor(0, 0, width, height)
+					renderer.setViewport(0, 0, width, height)
+
+					fn(time, rect)
+
+					// copy the rendered scene to this element's canvas
+					ctx.globalCompositeOperation = 'copy'
+					ctx.drawImage(
+						rendererCanvas,
+						0,
+						rendererCanvas.height - height,
+						width,
+						height, // src rect
+						0,
+						0,
+						width,
+						height
+					) // dst rect
+				}
+			}
+
 			requestAnimationFrame(render)
 		}
+
 		requestAnimationFrame(render)
 	}, [])
 
@@ -311,7 +438,7 @@ const Home = () => {
 				</Helmet>
 
 				{/* Hero */}
-				<canvas id='c' className={styles.c}></canvas>
+
 				<section className={`${styles.Hero_Container_Fluid} container-fluid`}>
 					<div className={`${styles.Hero} container p-0`}>
 						<div className={styles.Hero_Banner}>
@@ -347,19 +474,16 @@ const Home = () => {
 							alt="Wireframes Planet"
 							data-aos="zoom-in"
 						/> */}
-
+							{/* <canvas id='c' className={styles.c}> */}
 							<div className={styles.threed}>
 								<span
 									id='box'
-									className={`${styles.diagram} ${styles.left}`}
+									data-diagram='box'
+									className={` ${styles.box}`}
 								></span>
 							</div>
-							<div className={styles.threed}>
-								<span
-									id='pyramid'
-									className={`${styles.diagram} ${styles.right}`}
-								></span>
-							</div>
+
+							{/* </canvas> */}
 						</div>
 					</div>
 
@@ -691,6 +815,7 @@ const Home = () => {
 						<h2 className={styles.Sectors_Title} data-aos='fade-up'>
 							Sectores
 						</h2>
+
 						<h3
 							className={styles.Sectors_Caption}
 							data-aos='fade-up'
@@ -801,6 +926,13 @@ const Home = () => {
 				<section
 					className={`${styles.Contact_Fluid_Container} container-fluid py-5`}
 				>
+					<div>
+						<span
+							id='background'
+							data-diagram='background'
+							className={`${styles.background} `}
+						></span>
+					</div>
 					<div className={`${styles.Contact} container p-0`}>
 						<Form />
 					</div>
