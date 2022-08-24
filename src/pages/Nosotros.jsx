@@ -114,12 +114,12 @@ const Nosotros = () => {
 							</div>
 							<div
 								className={`${styles.Features_Image_Container} col-12 col-lg-6`}
+								data-aos='zoom-in'
 							>
 								<img
 									src={Features}
 									alt='Calidad, Optimización, Comunicación'
 									className={styles.Features_Image}
-									data-aos='zoom-in'
 								/>
 							</div>
 						</div>
@@ -162,14 +162,14 @@ const Nosotros = () => {
 										constantes. Si eres creativo, amas trabajar en equipo y
 										nunca dejas de aprender:
 									</p>
-									<a
-										className={styles.Work_Button}
-										href='mailto:info@wireframereality.com'
-										data-aos='fade-up'
-										data-aos-delay='150'
-									>
-										Envía tu cv
-									</a>
+									<div data-aos='fade-up' data-aos-delay='150'>
+										<a
+											className={styles.Work_Button}
+											href='mailto:info@wireframereality.com'
+										>
+											Envía tu cv
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>

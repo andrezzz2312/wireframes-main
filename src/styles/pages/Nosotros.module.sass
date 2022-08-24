@@ -102,22 +102,26 @@
     color: $white
     font-size: 30px
   &_Button
-    width: 190px
-    height: 60px
+    // width: 190px
+    // height: 60px
     border-radius: 12px
-    padding: 16px 24px
-    background: conic-gradient(from 180deg at 50% 50%, #419FB1 -16.88deg, #55CBD8 131.25deg, #419FB1 243.75deg, #419FB1 343.12deg, #55CBD8 491.25deg)
+    padding: 18px 18px
+    background: radial-gradient(at 50% 0%, #55CBD8 10px,#55CBD8 30px, #419FB1  50%)
+    background-size: 200% 200%
+    background-position: 50% 100%
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25)
     display: flex
     justify-content: center
     align-items: center
     color: $white
+    display: inline-block
     font-family: 'Font-Condensed-Bold', sans-serif
     font-size: 26px
     text-transform: uppercase
+    transition: all 0.5s ease
     &:hover
       color: $white
-      opacity: .8
+      background-position: 50% 0%
 
 @media (max-width: 1024px)
   .Hero
