@@ -91,6 +91,7 @@ const Home = () => {
 			const material = new THREE.MeshPhongMaterial({
 				color: 'blue',
 				flatShading: true,
+				// asd
 			})
 			const mesh = new THREE.Mesh(geometry, material)
 			sceneInfo.scene.add(mesh)
