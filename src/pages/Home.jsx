@@ -89,20 +89,21 @@ const Home = () => {
 			return { scene, camera, controls }
 		}
 
-		const texturePath = '../../assets/texture/grid.png'
+		// const texturePath = '../assets/texture/grid.png'
 		const DISPLACEMENT_PATH =
 			'https://res.cloudinary.com/dg5nsedzw/image/upload/v1641657200/blog/vaporwave-threejs-textures/displacement.png'
 
 		const textureLoader = new THREE.TextureLoader()
-		const gridtexture = textureLoader.load(texturePath)
+		// const gridtexture = textureLoader.load(texturePath)
 		const terraintexture = textureLoader.load(DISPLACEMENT_PATH)
-
 		const sceneInitFunctionsByName = {
 			box: (elem) => {
 				const { scene, camera, controls } = makeScene(elem)
 
 				const geometry = new THREE.BoxBufferGeometry(1, 1, 1)
-				const material = new THREE.MeshPhongMaterial({ color: 'red' })
+				const material = new THREE.MeshPhongMaterial({
+					color: 'red',
+				})
 				const mesh = new THREE.Mesh(geometry, material)
 				scene.add(mesh)
 				return (time, rect) => {
@@ -115,24 +116,28 @@ const Home = () => {
 				}
 			},
 			background: (elem) => {
-				const { scene, controls } = makeScene(elem)
+				const { scene } = makeScene(elem)
 				var camera = new THREE.PerspectiveCamera(
 					75,
 					background.clientWidth / background.clientHeight,
 					0.01,
 					20
 				)
+
 				camera.position.set(0, 0.06, 1.1)
+
 				var geometry = new THREE.PlaneBufferGeometry(1, 2, 24, 24)
 				var material = new THREE.MeshStandardMaterial({
-					map: gridtexture,
+					// map: gridtexture,
 					displacementMap: terraintexture,
 					displacementScale: 0.2,
-
 					metalness: 0.95,
 					roughness: 0.5,
 				})
 
+				const controls = new OrbitControls(camera, background)
+
+				controls.enableDamping = true
 				var plano = new THREE.Mesh(geometry, material)
 				plano.rotation.x = -Math.PI * 0.5
 				plano.position.set(0, 0, 0.15)
@@ -142,38 +147,41 @@ const Home = () => {
 				plano2.position.set(0, 0, -1.85)
 
 				scene.add(plano, plano2)
-				// //luces ambientales
-				// var ambient = new THREE.AmbientLight(0xffffff, 10)
-				// //var directional = new THREE.DirectionalLight(0xffffff, 0.9)
-				// scene.add(ambient)
-				// const spotlight = new THREE.SpotLight(
-				// 	'#d53c3d',
-				// 	20,
-				// 	25,
-				// 	Math.PI * 0.1,
-				// 	0.25
-				// )
-				// spotlight.position.set(0.5, 0.75, 2.2)
-				// // Target the spotlight to a specific point to the left of the scene
-				// spotlight.target.position.x = -0.25
-				// spotlight.target.position.y = 0.25
-				// spotlight.target.position.z = 0.25
-				// scene.add(spotlight)
-				// scene.add(spotlight.target)
-				// const spotlight2 = new THREE.SpotLight(
-				// 	'#d53c3d',
-				// 	20,
-				// 	25,
-				// 	Math.PI * 0.1,
-				// 	0.25
-				// )
-				// spotlight2.position.set(-0.5, 0.75, 2.2)
-				// // Target the spotlight to a specific point to the right side of the scene
-				// spotlight2.target.position.x = 0.25
-				// spotlight2.target.position.y = 0.25
-				// spotlight2.target.position.z = 0.25
-				// scene.add(spotlight2)
-				// scene.add(spotlight2.target)
+
+				const fog = new THREE.Fog('#000000', 1, 2.5)
+				scene.fog = fog
+				//luces ambientales
+				var ambient = new THREE.AmbientLight(0xffffff, 10)
+				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
+				scene.add(ambient)
+				const spotlight = new THREE.SpotLight(
+					'#d53c3d',
+					20,
+					25,
+					Math.PI * 0.1,
+					0.25
+				)
+				spotlight.position.set(0.5, 0.75, 2.2)
+				// Target the spotlight to a specific point to the left of the scene
+				spotlight.target.position.x = -0.25
+				spotlight.target.position.y = 0.25
+				spotlight.target.position.z = 0.25
+				scene.add(spotlight)
+				scene.add(spotlight.target)
+				const spotlight2 = new THREE.SpotLight(
+					'#d53c3d',
+					20,
+					25,
+					Math.PI * 0.1,
+					0.25
+				)
+				spotlight2.position.set(-0.5, 0.75, 2.2)
+				// Target the spotlight to a specific point to the right side of the scene
+				spotlight2.target.position.x = 0.25
+				spotlight2.target.position.y = 0.25
+				spotlight2.target.position.z = 0.25
+				scene.add(spotlight2)
+				scene.add(spotlight2.target)
 
 				// // Post Processing
 				// // Add the effectComposer
