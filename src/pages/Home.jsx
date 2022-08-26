@@ -174,6 +174,7 @@ const Home = () => {
 					Math.PI * 0.1,
 					0.25
 				)
+				// asd
 				spotlight2.position.set(-0.5, 0.75, 2.2)
 				// Target the spotlight to a specific point to the right side of the scene
 				spotlight2.target.position.x = 0.25
