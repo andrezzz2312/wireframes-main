@@ -415,26 +415,31 @@ const Home = () => {
 			gsap.fromTo(
 				titleRef.current,
 				{ x: 0, opacity: 1 },
-				{ x: -400, opacity: 0, duration: 2, delay: 2 }
-			)
-			setTimeout(() => {
-				if (title === 3) {
-					setTitle(0)
-					gsap.fromTo(
-						titleRef.current,
-						{ x: 200, opacity: 0 },
-						{ x: 0, opacity: 1, duration: 1 }
-					)
-				} else {
-					setTitle(title + 1)
+				{
+					x: -400,
+					opacity: 0,
+					duration: 2,
+					delay: 2,
+					onComplete() {
+						if (title === 3) {
+							setTitle(0)
+							gsap.fromTo(
+								titleRef.current,
+								{ x: 200, opacity: 0 },
+								{ x: 0, opacity: 1, duration: 1 }
+							)
+						} else {
+							setTitle(title + 1)
 
-					gsap.fromTo(
-						titleRef.current,
-						{ x: 200, opacity: 0 },
-						{ x: 0, opacity: 1, duration: 1 }
-					)
+							gsap.fromTo(
+								titleRef.current,
+								{ x: 200, opacity: 0 },
+								{ x: 0, opacity: 1, duration: 1 }
+							)
+						}
+					},
 				}
-			}, [4000])
+			)
 		}
 	}, [titleRef, title])
 

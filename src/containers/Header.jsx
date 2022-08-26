@@ -10,14 +10,32 @@ import HamburguerIcon from '../assets/icons/hamburguer.svg'
 import styles from '../styles/containers/Header.module.sass'
 
 const Header = () => {
-	const [ showMenu, setShowMenu ] = useState(false)
-	const [ showServices, setShowServices ] = useState(false)
-	const [ isMobile, setIsMobile ] = useState(false)
+	const [showMenu, setShowMenu] = useState(false)
+	const [showServices, setShowServices] = useState(false)
+	const [service, setService] = useState(false)
+	const [isMobile, setIsMobile] = useState(false)
 	const { language } = useContext(AppContext)
 
 	const toggleMenu = () => {
 		setShowMenu(!showMenu)
 	}
+	const onService = () => {
+		setService(true)
+		setShowServices(true)
+	}
+
+	const offService = () => {
+		setService(false)
+		setTimeout(() => {
+			if (service === false) {
+				setShowServices(false)
+			}
+			console.log(service)
+		}, 300)
+	}
+	useEffect(() => {
+		console.log(service)
+	}, [service])
 
 	const toggleServices = () => {
 		setShowServices(!showServices)
@@ -44,119 +62,179 @@ const Header = () => {
 		setShowServices(false)
 	}, [])
 
-	if (language === 'es') return (
-		<header className={`${styles.Container_Fluid} container-fluid`}>
-			<div className={`${styles.Container} container p-0`}>
-				<div className={styles.Logo_Container}>
-					<button className={styles.Button} onClick={toggleMenu} aria-label="Go to Home">
-						{isMobile
-							?	showMenu
-								? <img src={XIcon} alt="Close Menu"/>
-								: <img src={HamburguerIcon} alt="Open Menu"/>
-							: <></>
-						}
-					</button>
-					<Link to="/" className={styles.Link_Container}>
-						<img
-							src={BrandIcon}
-							className={styles.Icon}
-							alt="Wireframes Icon"
-							width={37}
-							height={29}
-							quality={100}
-						/>
-						<img
-							src={BrandLogo}
-							className={styles.Logo}
-							alt="Wireframes Logo"
-							width={137}
-							height={31}
-							quality={100}
-						/>
-					</Link>
-				</div>
+	if (language === 'es')
+		return (
+			<header className={`${styles.Container_Fluid} container-fluid`}>
+				<div className={`${styles.Container} container p-0`}>
+					<div className={styles.Logo_Container}>
+						<button
+							className={styles.Button}
+							onClick={toggleMenu}
+							aria-label='Go to Home'
+						>
+							{isMobile ? (
+								showMenu ? (
+									<img src={XIcon} alt='Close Menu' />
+								) : (
+									<img src={HamburguerIcon} alt='Open Menu' />
+								)
+							) : (
+								<></>
+							)}
+						</button>
+						<Link to='/' className={styles.Link_Container}>
+							<img
+								src={BrandIcon}
+								className={styles.Icon}
+								alt='Wireframes Icon'
+								width={37}
+								height={29}
+								quality={100}
+							/>
+							<img
+								src={BrandLogo}
+								className={styles.Logo}
+								alt='Wireframes Logo'
+								width={137}
+								height={31}
+								quality={100}
+							/>
+						</Link>
+					</div>
 
-				{isMobile
-					? showMenu && (
+					{isMobile ? (
+						showMenu && (
+							<nav className={styles.Nav}>
+								<button
+									className={styles.Service_Button}
+									onMouseClick={toggleServices}
+								>
+									Servicios <FontAwesomeIcon icon={faChevronDown} />
+									<div
+										className={
+											showServices
+												? styles.Services_Links
+												: styles.Services_Links_Hidde
+										}
+									>
+										<Link
+											to='/servicio/realidad-virtual'
+											className={styles.Service_Link}
+										>
+											Realidad Virtual
+										</Link>
+										<Link
+											to='/servicio/realidad-aumentada'
+											className={styles.Service_Link}
+										>
+											Realidad Aumentada
+										</Link>
+										<Link
+											to='/servicio/experiencias-3D'
+											className={styles.Service_Link}
+										>
+											Experiencias 3D
+										</Link>
+										<Link
+											to='/servicio/metaverso'
+											className={styles.Service_Link}
+										>
+											Metaverso
+										</Link>
+									</div>
+								</button>
+								<Link to='/portafolio' className={styles.Link}>
+									Portafolio
+								</Link>
+								<Link to='/nosotros' className={styles.Link}>
+									Nosotros
+								</Link>
+								<Link to='/contacto' className={styles.Link}>
+									Contacto
+								</Link>
+							</nav>
+						)
+					) : (
 						<nav className={styles.Nav}>
-							<button className={styles.Service_Button} onClick={toggleServices}>
-								Servicios <FontAwesomeIcon icon={faChevronDown}/>
-								<div className={showServices ? styles.Services_Links : styles.Services_Links_Hidde}>
-									<Link to="/servicio/realidad-virtual" className={styles.Service_Link}>
+							<button
+								className={styles.Service_Button}
+								onMouseEnter={onService}
+								onMouseLeave={offService}
+								onMouseOut={() => setService(false)}
+							>
+								Servicios <FontAwesomeIcon icon={faChevronDown} />
+								<div
+									className={
+										showServices
+											? styles.Services_Links
+											: styles.Services_Links_Hidde
+									}
+								>
+									<Link
+										to='/servicio/realidad-virtual'
+										className={styles.Service_Link}
+									>
 										Realidad Virtual
 									</Link>
-									<Link to="/servicio/realidad-aumentada" className={styles.Service_Link}>
+									<Link
+										to='/servicio/realidad-aumentada'
+										className={styles.Service_Link}
+									>
 										Realidad Aumentada
 									</Link>
-									<Link to="/servicio/experiencias-3D" className={styles.Service_Link}>
+									<Link
+										to='/servicio/experiencias-3D'
+										className={styles.Service_Link}
+									>
 										Experiencias 3D
 									</Link>
-									<Link to="/servicio/metaverso" className={styles.Service_Link}>
+									<Link
+										to='/servicio/metaverso'
+										className={styles.Service_Link}
+									>
 										Metaverso
 									</Link>
 								</div>
 							</button>
-							<Link to="/portafolio" className={styles.Link}>
+							<Link to='/portafolio' className={styles.Link}>
 								Portafolio
 							</Link>
-							<Link to="/nosotros" className={styles.Link}>
+							<Link to='/nosotros' className={styles.Link}>
 								Nosotros
 							</Link>
-							<Link to="/contacto" className={styles.Link}>
+							<Link to='/contacto' className={styles.Link}>
 								Contacto
 							</Link>
 						</nav>
-					)
-					:	<nav className={styles.Nav}>
-						<button className={styles.Service_Button} onClick={toggleServices}>
-								Servicios <FontAwesomeIcon icon={faChevronDown}/>
-							<div className={showServices ? styles.Services_Links : styles.Services_Links_Hidde}>
-								<Link to="/servicio/realidad-virtual" className={styles.Service_Link}>
-									Realidad Virtual
-								</Link>
-								<Link to="/servicio/realidad-aumentada" className={styles.Service_Link}>
-									Realidad Aumentada
-								</Link>
-								<Link to="/servicio/experiencias-3D" className={styles.Service_Link}>
-									Experiencias 3D
-								</Link>
-								<Link to="/servicio/metaverso" className={styles.Service_Link}>
-									Metaverso
-								</Link>
-							</div>
-						</button>
-						<Link to="/portafolio" className={styles.Link}>
-							Portafolio
-						</Link>
-						<Link to="/nosotros" className={styles.Link}>
-							Nosotros
-						</Link>
-						<Link to="/contacto" className={styles.Link}>
-							Contacto
-						</Link>
-					</nav>
-				}
-			</div>
-		</header>
-	)
+					)}
+				</div>
+			</header>
+		)
 
 	return (
 		<header className={`${styles.Container_Fluid} container-fluid`}>
 			<div className={`${styles.Container} container p-0`}>
 				<div className={styles.Logo_Container}>
-					<button className={styles.Button} onClick={toggleMenu} aria-label="Go to Home">
-						{isMobile
-							?	showMenu
-								? <img src={XIcon}/>
-								: <img src={HamburguerIcon}/>
-							: <></>
-						}
+					<button
+						className={styles.Button}
+						onClick={toggleMenu}
+						aria-label='Go to Home'
+					>
+						{isMobile ? (
+							showMenu ? (
+								<img src={XIcon} />
+							) : (
+								<img src={HamburguerIcon} />
+							)
+						) : (
+							<></>
+						)}
 					</button>
-					<Link to="/" className={styles.Link_Container}>
+					<Link to='/' className={styles.Link_Container}>
 						<img
 							src={BrandIcon}
 							className={styles.Icon}
-							alt="Wireframes Icon"
+							alt='Wireframes Icon'
 							width={37}
 							height={29}
 							quality={100}
@@ -164,7 +242,7 @@ const Header = () => {
 						<img
 							src={BrandLogo}
 							className={styles.Logo}
-							alt="Wireframes Logo"
+							alt='Wireframes Logo'
 							width={137}
 							height={31}
 							quality={100}
@@ -172,66 +250,103 @@ const Header = () => {
 					</Link>
 				</div>
 
-				{isMobile
-					? showMenu && (
+				{isMobile ? (
+					showMenu && (
 						<nav className={styles.Nav}>
-							<button className={styles.Service_Button} onClick={toggleServices}>
-								Services <FontAwesomeIcon icon={faChevronDown}/>
-								<div className={showServices ? styles.Services_Links : styles.Services_Links_Hidde}>
-									<Link to="/servicio/realidad-virtual" className={styles.Service_Link}>
+							<button
+								className={styles.Service_Button}
+								onClick={toggleServices}
+							>
+								Services <FontAwesomeIcon icon={faChevronDown} />
+								<div
+									className={
+										showServices
+											? styles.Services_Links
+											: styles.Services_Links_Hidde
+									}
+								>
+									<Link
+										to='/servicio/realidad-virtual'
+										className={styles.Service_Link}
+									>
 										Virtual Reality
 									</Link>
-									<Link to="/servicio/realidad-aumentada" className={styles.Service_Link}>
+									<Link
+										to='/servicio/realidad-aumentada'
+										className={styles.Service_Link}
+									>
 										Augmented Reality
 									</Link>
-									<Link to="/servicio/experiencias-3D" className={styles.Service_Link}>
+									<Link
+										to='/servicio/experiencias-3D'
+										className={styles.Service_Link}
+									>
 										3D Web Experiences
 									</Link>
-									<Link to="/servicio/metaverso" className={styles.Service_Link}>
+									<Link
+										to='/servicio/metaverso'
+										className={styles.Service_Link}
+									>
 										Metaverse
 									</Link>
 								</div>
 							</button>
-							<Link to="/portafolio" className={styles.Link}>
+							<Link to='/portafolio' className={styles.Link}>
 								Portfolio
 							</Link>
-							<Link to="/nosotros" className={styles.Link}>
+							<Link to='/nosotros' className={styles.Link}>
 								About us
 							</Link>
-							<Link to="/contacto" className={styles.Link}>
+							<Link to='/contacto' className={styles.Link}>
 								Contact
 							</Link>
 						</nav>
 					)
-					:	<nav className={styles.Nav}>
+				) : (
+					<nav className={styles.Nav}>
 						<button className={styles.Service_Button} onClick={toggleServices}>
-								Services <FontAwesomeIcon icon={faChevronDown}/>
-							<div className={showServices ? styles.Services_Links : styles.Services_Links_Hidde}>
-								<Link to="/servicio/realidad-virtual" className={styles.Service_Link}>
+							Services <FontAwesomeIcon icon={faChevronDown} />
+							<div
+								className={
+									showServices
+										? styles.Services_Links
+										: styles.Services_Links_Hidde
+								}
+							>
+								<Link
+									to='/servicio/realidad-virtual'
+									className={styles.Service_Link}
+								>
 									Virtual Reality
 								</Link>
-								<Link to="/servicio/realidad-aumentada" className={styles.Service_Link}>
+								<Link
+									to='/servicio/realidad-aumentada'
+									className={styles.Service_Link}
+								>
 									Augmented Reality
 								</Link>
-								<Link to="/servicio/experiencias-3D" className={styles.Service_Link}>
+								<Link
+									to='/servicio/experiencias-3D'
+									className={styles.Service_Link}
+								>
 									3D Web Experiences
 								</Link>
-								<Link to="/servicio/metaverso" className={styles.Service_Link}>
+								<Link to='/servicio/metaverso' className={styles.Service_Link}>
 									Metaverse
 								</Link>
 							</div>
 						</button>
-						<Link to="/portafolio" className={styles.Link}>
+						<Link to='/portafolio' className={styles.Link}>
 							Portfolio
 						</Link>
-						<Link to="/nosotros" className={styles.Link}>
+						<Link to='/nosotros' className={styles.Link}>
 							About us
 						</Link>
-						<Link to="/contacto" className={styles.Link}>
+						<Link to='/contacto' className={styles.Link}>
 							Contact
 						</Link>
 					</nav>
-				}
+				)}
 			</div>
 		</header>
 	)
