@@ -64,9 +64,8 @@ const Home = () => {
 		const background = document.querySelector('#background')
 		function makeScene(elem) {
 			const scene = new THREE.Scene()
-
 			const fov = 75
-			const aspect = box.clientWidth / box.clientHeight // the canvas default
+			const aspect = box.clientWidth / box.clientHeight
 			const near = 0.1
 			const far = 100
 			const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
@@ -136,8 +135,8 @@ const Home = () => {
 				})
 
 				const controls = new OrbitControls(camera, background)
-
 				controls.enableDamping = true
+
 				var plano = new THREE.Mesh(geometry, material)
 				plano.rotation.x = -Math.PI * 0.5
 				plano.position.set(0, 0, 0.15)
