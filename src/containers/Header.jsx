@@ -19,6 +19,7 @@ const Header = () => {
 	const toggleMenu = () => {
 		setShowMenu(!showMenu)
 	}
+
 	const onService = () => {
 		setService(true)
 		setShowServices(true)
@@ -30,12 +31,8 @@ const Header = () => {
 			if (service === false) {
 				setShowServices(false)
 			}
-			console.log(service)
 		}, 300)
 	}
-	useEffect(() => {
-		console.log(service)
-	}, [service])
 
 	const toggleServices = () => {
 		setShowServices(!showServices)
