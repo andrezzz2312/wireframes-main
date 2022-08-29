@@ -30,10 +30,7 @@
   width: 10em
   height: 10em
 
-.background
-  display: inline-block
-  width: 100vw
-  height: 20rem
+
   
 .threed
   margin: 1em auto
@@ -228,7 +225,7 @@
     transition: opacity .4s ease-in-out
   &_Text_Container
     width: 50%
-    height: 100%
+    height: 25%
     border-radius: 0 1rem 1rem 0
     padding: 25px 20px
     background-color: $white
@@ -347,18 +344,26 @@
 
 // Idea
 .Idea
-  padding-bottom: 50px
+  padding-bottom: 1rem
   background: linear-gradient(180deg, #DDDDDD 0%, #F0F0F0 3.65%, #FFFFFF 29.69%)
   display: flex
+  flex-direction: row
   justify-content: center
+  align-content: center
   position: relative
+ 
+  &_ImageContainer
+    display: grid
+    flex-direction: column
+    align-content: flex-start
+    // z-index: -1
   &_Text_Container
     display: flex
     flex-direction: column
-    justify-content: center
+    justify-content: flex-start
     align-items: center
     position: absolute
-    top: 0px
+    top: 8rem
     bottom: 0px
     left: 0px
     right: 0px
@@ -367,6 +372,15 @@
     color: $cyan
     font-family: 'Font-Condensed-Bold', sans-serif
     font-size: 60px
+  &_Image
+    transform: rotate(180deg)
+    grid-column: 1/2
+    grid-row: 1/2
+    opacity: 0.5
+    margin-top: -15px
+
+  &_lamparaP
+    opacity: 0
   &_Text
     margin-top: 0
     font-size: 28px
@@ -401,17 +415,32 @@
 
 // Contact
 .Contact_Fluid_Container
-  height: fit-content
-  // background-image: url('../resources/images/home-contact-background.png')
-  background-size: cover
-  background-position: top
-
-.Contact
-  margin-top: 350px
-  display: flex
-  padding-bottom: 50px
+  display: grid
+  
   justify-content: center
   align-items: flex-end
+  align-content: center
+
+
+.background
+  display: inline-block
+  grid-column: 1/2
+  grid-row: 1/2
+  position: relative
+  left: 0
+  top: 0
+  width: 100vw
+  height: 50rem
+  background: rgb(32,108,150)
+  background: linear-gradient(0deg, rgba(32,108,150,1) 0%, rgba(37,113,154,1) 30%, rgba(157,234,245,1) 70%, rgba(255,255,255,1) 100%)
+
+.Contact  
+  display: flex
+  grid-column: 1/2
+  grid-row: 1/2 
+  justify-content: center
+  align-items: center
+  margin-bottom: 4rem
 
 @media (max-width: 1440px)
   .Visor

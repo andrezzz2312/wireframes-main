@@ -26,6 +26,9 @@ import Sector4 from '../assets/sectors/sector-4.png'
 import Sector5 from '../assets/sectors/sector-5.png'
 import Sector6 from '../assets/sectors/sector-6.png'
 import Lampara from '../assets/images/lampara.png'
+import lamparaA from '../assets/images/lamparaA.png'
+import lamparaP from '../assets/images/lamparaP.png'
+import texture from '../assets/texture/grid2.png'
 import DetailWhite from '../assets/details/bottom-detail.svg'
 import DetailDark from '../assets/details/bottom-detail-dark.svg'
 import DetailCyan from '../assets/details/bottom-detail-cyan.svg'
@@ -34,10 +37,10 @@ import SwiperNextButton from '../assets/details/swiper-right.svg'
 import * as THREE from 'three'
 // import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-// import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-// import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
-// import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
-// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 // import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
 
 const Home = () => {
@@ -74,8 +77,7 @@ const Home = () => {
 			scene.add(camera)
 
 			const controls = new OrbitControls(camera, elem)
-			controls.noZoom = true
-			controls.noPan = true
+			controls.enableZoom = false
 
 			{
 				const color = 0xffffff
@@ -88,23 +90,28 @@ const Home = () => {
 			return { scene, camera, controls }
 		}
 
-		// const texturePath = '../assets/texture/grid.png'
 		const DISPLACEMENT_PATH =
 			'https://res.cloudinary.com/dg5nsedzw/image/upload/v1641657200/blog/vaporwave-threejs-textures/displacement.png'
 
 		const textureLoader = new THREE.TextureLoader()
-		// const gridtexture = textureLoader.load(texturePath)
+		const gridtexture = textureLoader.load(texture)
+
 		const terraintexture = textureLoader.load(DISPLACEMENT_PATH)
 		const sceneInitFunctionsByName = {
 			box: (elem) => {
 				const { scene, camera, controls } = makeScene(elem)
 
 				const geometry = new THREE.BoxBufferGeometry(1, 1, 1)
-				const material = new THREE.MeshPhongMaterial({
+				const material = new THREE.MeshBasicMaterial({
 					color: 'red',
 				})
+				var ambient = new THREE.AmbientLight(0xffffff, 0.5)
+
+				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
+				scene.add(ambient)
 				const mesh = new THREE.Mesh(geometry, material)
 				scene.add(mesh)
+
 				return (time, rect) => {
 					mesh.rotation.y = time * 0.1
 					camera.aspect = rect.width / rect.height
@@ -115,7 +122,7 @@ const Home = () => {
 				}
 			},
 			background: (elem) => {
-				const { scene } = makeScene(elem)
+				const { scene, controls } = makeScene(elem)
 				var camera = new THREE.PerspectiveCamera(
 					75,
 					background.clientWidth / background.clientHeight,
@@ -125,18 +132,20 @@ const Home = () => {
 
 				camera.position.set(0, 0.06, 1.1)
 
-				var geometry = new THREE.PlaneBufferGeometry(1, 2, 24, 24)
+				var geometry = new THREE.PlaneBufferGeometry(1, 3, 24, 24)
 				var material = new THREE.MeshStandardMaterial({
-					// map: gridtexture,
+					map: gridtexture,
 					displacementMap: terraintexture,
-					displacementScale: 0.2,
+					displacementScale: 0.3,
 					metalness: 0.95,
 					roughness: 0.5,
 				})
 
-				const controls = new OrbitControls(camera, background)
+				// const controls = new OrbitControls(camera, background)
+
 				controls.enableDamping = true
 
+				// scene.background = new THREE.Color('black')
 				var plano = new THREE.Mesh(geometry, material)
 				plano.rotation.x = -Math.PI * 0.5
 				plano.position.set(0, 0, 0.15)
@@ -147,19 +156,24 @@ const Home = () => {
 
 				scene.add(plano, plano2)
 
-				const fog = new THREE.Fog('#000000', 1, 2.5)
+				const fog = new THREE.Fog('#25719a', 0.5, 3.5)
 				scene.fog = fog
 				//luces ambientales
 				var ambient = new THREE.AmbientLight(0xffffff, 10)
 				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
 				scene.add(ambient)
 				const spotlight = new THREE.SpotLight(
-					'#d53c3d',
+					'#ffffff',
 					20,
-					25,
+					3,
 					Math.PI * 0.1,
 					0.25
 				)
+				// spotlight.position.set(0, 1, 2)
+				// // Target the spotlight to a specific point to the left of the scene
+				// spotlight.target.position.x = 0
+				// spotlight.target.position.y = 0
+				// spotlight.target.position.z = 0
 				spotlight.position.set(0.5, 0.75, 2.2)
 				// Target the spotlight to a specific point to the left of the scene
 				spotlight.target.position.x = -0.25
@@ -168,13 +182,13 @@ const Home = () => {
 				scene.add(spotlight)
 				scene.add(spotlight.target)
 				const spotlight2 = new THREE.SpotLight(
-					'#d53c3d',
+					'#ffffff',
 					20,
-					25,
+					3,
 					Math.PI * 0.1,
 					0.25
 				)
-				// asd
+
 				spotlight2.position.set(-0.5, 0.75, 2.2)
 				// Target the spotlight to a specific point to the right side of the scene
 				spotlight2.target.position.x = 0.25
@@ -183,26 +197,26 @@ const Home = () => {
 				scene.add(spotlight2)
 				scene.add(spotlight2.target)
 
-				// // Post Processing
-				// // Add the effectComposer
-				// const effectComposer = new EffectComposer(renderer)
-				// effectComposer.setSize(box.clientWidth, box.clientHeight)
+				// Post Processing
+				// Add the effectComposer
+				const effectComposer = new EffectComposer(renderer)
+				effectComposer.setSize(background.clientWidth, background.clientHeight)
 				// effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-				// /**
-				//  * Add the render path to the composer
-				//  * This pass will take care of rendering the final scene
-				//  */
-				// const renderPass = new RenderPass(scene, camera)
-				// effectComposer.addPass(renderPass)
+				/**
+				 * Add the render path to the composer
+				 * This pass will take care of rendering the final scene
+				 */
+				const renderPass = new RenderPass(scene, camera)
+				effectComposer.addPass(renderPass)
 
 				// const rgbShiftPass = new ShaderPass(RGBShiftShader)
 				// rgbShiftPass.uniforms['amount'].value = 0.0015
 
 				// effectComposer.addPass(rgbShiftPass)
 
-				// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader)
-				// effectComposer.addPass(gammaCorrectionPass)
+				const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader)
+				effectComposer.addPass(gammaCorrectionPass)
 				const clock = new THREE.Clock()
 
 				return () => {
@@ -210,8 +224,8 @@ const Home = () => {
 					camera.updateProjectionMatrix()
 					// controls.handleResize()
 					controls.update()
-					renderer.render(scene, camera)
-					// effectComposer.render()
+					// renderer.render(scene, camera)
+					effectComposer.render(scene, camera)
 
 					plano.position.z = (elapsedTime * 0.15) % 2
 
@@ -909,12 +923,21 @@ const Home = () => {
 
 				{/* Idea */}
 				<section className={styles.Idea}>
-					<img
-						className={styles.Idea_Image}
-						src={Lampara}
-						width={250}
-						alt='¿Tienes una idea brillante?'
-					/>
+					<div className={styles.Idea_ImageContainer}>
+						<img
+							className={styles.Idea_Image}
+							src={lamparaA}
+							width={400}
+							alt='¿Tienes una idea brillante?'
+						/>
+						<img
+							className={`${styles.Idea_Image} ${styles.Idea_lamparaP}`}
+							src={lamparaP}
+							width={400}
+							alt='¿Tienes una idea brillante?'
+						/>
+					</div>
+
 					<div className={styles.Idea_Text_Container}>
 						<h2 className={styles.Idea_Title} data-aos='fade-up'>
 							¿Tienes una idea brillante?
@@ -936,20 +959,16 @@ const Home = () => {
 				</section>
 
 				{/* Contact */}
-				<section
-					className={`${styles.Contact_Fluid_Container} container-fluid py-5`}
-				>
-					<div>
-						<span
-							id='background'
-							data-diagram='background'
-							className={`${styles.background} `}
-						></span>
-					</div>
-					<div className={`${styles.Contact} container p-0`}>
+				<div className={`${styles.Contact_Fluid_Container} `}>
+					<span
+						id='background'
+						data-diagram='background'
+						className={`${styles.background} `}
+					></span>
+					<div className={`${styles.Contact} container `}>
 						<Form />
 					</div>
-				</section>
+				</div>
 			</main>
 		)
 
