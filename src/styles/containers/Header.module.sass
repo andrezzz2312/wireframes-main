@@ -1,10 +1,14 @@
 @import "../resources/variables"
 
+.scrollH
+  box-shadow: 0 6px 6px hsla(0, 0%, 4%, 0.3)
+
 .Container_Fluid
   background-color: $gray-dark
   position: fixed
   top: 0
   z-index: 10000
+  transition: all 0.5s ease
 
 .Container
   min-height: 80px
@@ -35,16 +39,19 @@
   grid-template-columns: repeat(4, auto)
   column-gap: 40px
 
+
+
 .Link
   color: $white
   letter-spacing: 1px
   text-transform: uppercase
   font-size: 14px
   font-family: "Font-Bold", sans-serif
+  padding: 1rem 0 1rem 0
 
 .Service_Button
   @extend .Link
-  padding: unset
+  // padding: unset
   background: unset
   position: relative
 
@@ -54,12 +61,19 @@
   display: flex
   flex-direction: column
   position: absolute
-  top: calc(100% + 10px)
-  left: 0
+  top: calc(100% )
+  left: -1rem
   overflow: hidden
+  transition: all 0.3s ease
+
 
 .Services_Links_Hidde
-  display: none
+  @extend .Services_Links
+  // display: none 
+  opacity: 0
+  pointer-events: none
+  
+
 
 .Service_Link
   @extend .Link
