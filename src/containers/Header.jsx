@@ -12,26 +12,21 @@ import styles from '../styles/containers/Header.module.sass'
 const Header = () => {
 	const [showMenu, setShowMenu] = useState(false)
 	const [showServices, setShowServices] = useState(false)
-	const [service, setService] = useState(false)
+
 	const [isMobile, setIsMobile] = useState(false)
 	const { language } = useContext(AppContext)
 
+	function scrollHeader() {
+		const header = document.getElementById('header')
+		// When the scroll is greater than 50 viewport height, add the scroll-header class to the header tag
+		if (this.scrollY >= 50) header.classList.add(styles.scrollH)
+		else header.classList.remove(styles.scrollH)
+	}
+
+	window.addEventListener('scroll', scrollHeader)
+
 	const toggleMenu = () => {
 		setShowMenu(!showMenu)
-	}
-
-	const onService = () => {
-		setService(true)
-		setShowServices(true)
-	}
-
-	const offService = () => {
-		setService(false)
-		setTimeout(() => {
-			if (service === false) {
-				setShowServices(false)
-			}
-		}, 300)
 	}
 
 	const toggleServices = () => {
@@ -61,7 +56,10 @@ const Header = () => {
 
 	if (language === 'es')
 		return (
-			<header className={`${styles.Container_Fluid} container-fluid`}>
+			<header
+				className={`${styles.Container_Fluid} container-fluid`}
+				id='header'
+			>
 				<div className={`${styles.Container} container p-0`}>
 					<div className={styles.Logo_Container}>
 						<button
@@ -155,9 +153,8 @@ const Header = () => {
 						<nav className={styles.Nav}>
 							<button
 								className={styles.Service_Button}
-								onMouseEnter={onService}
-								onMouseLeave={offService}
-								onMouseOut={() => setService(false)}
+								onMouseEnter={toggleServices}
+								onMouseLeave={toggleServices}
 							>
 								Servicios <FontAwesomeIcon icon={faChevronDown} />
 								<div

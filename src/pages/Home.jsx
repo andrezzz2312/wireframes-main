@@ -28,6 +28,7 @@ import Sector6 from '../assets/sectors/sector-6.png'
 import Lampara from '../assets/images/lampara.png'
 import lamparaA from '../assets/images/lamparaA.png'
 import lamparaP from '../assets/images/lamparaP.png'
+
 import texture from '../assets/texture/grid2.png'
 import DetailWhite from '../assets/details/bottom-detail.svg'
 import DetailDark from '../assets/details/bottom-detail-dark.svg'
@@ -295,6 +296,14 @@ const Home = () => {
 		requestAnimationFrame(render)
 	}, [])
 
+	function show() {
+		const lamparaP = document.getElementById('lamparaP')
+		lamparaP.style.opacity = '1'
+	}
+	function hide() {
+		const lamparaP = document.getElementById('lamparaP')
+		lamparaP.style.opacity = '0'
+	}
 	const sectors = [
 		{
 			title: 'Industria Automotriz',
@@ -927,13 +936,14 @@ const Home = () => {
 						<img
 							className={styles.Idea_Image}
 							src={lamparaA}
-							width={400}
+							width={200}
 							alt='¿Tienes una idea brillante?'
 						/>
 						<img
 							className={`${styles.Idea_Image} ${styles.Idea_lamparaP}`}
 							src={lamparaP}
-							width={400}
+							width={530}
+							id='lamparaP'
 							alt='¿Tienes una idea brillante?'
 						/>
 					</div>
@@ -946,7 +956,12 @@ const Home = () => {
 							¿no sabes cómo desarrollarla?
 						</p>
 						<div data-aos='fade-up' data-aos-delay='250'>
-							<Link to='/contacto' className={styles.Idea_Button}>
+							<Link
+								to='/contacto'
+								className={styles.Idea_Button}
+								onMouseEnter={show}
+								onMouseLeave={hide}
+							>
 								Conversemos
 							</Link>
 						</div>

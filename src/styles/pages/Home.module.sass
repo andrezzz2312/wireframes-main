@@ -267,6 +267,8 @@
 .Sectors_Container_Fluid
   background: linear-gradient(180deg, #1F1F1F 0%, #2C2C2C 3.65%, #3A3A3A 29.69%)
 
+ 
+
 .Sector_Card_Container
   margin-bottom: 3rem
   display: grid
@@ -342,6 +344,7 @@
   display: flex
   justify-content: center
 
+
 // Idea
 .Idea
   padding-bottom: 1rem
@@ -350,13 +353,13 @@
   flex-direction: row
   justify-content: center
   align-content: center
-  position: relative
- 
+  position: relative 
   &_ImageContainer
     display: grid
-    flex-direction: column
-    align-content: flex-start
-    // z-index: -1
+    flex-direction: row
+    align-content: center
+    justify-content: center
+    justify-items: center    
   &_Text_Container
     display: flex
     flex-direction: column
@@ -367,6 +370,7 @@
     bottom: 0px
     left: 0px
     right: 0px
+    z-index: 3
   &_Title
     margin-bottom: 0
     color: $cyan
@@ -376,14 +380,9 @@
     transform: rotate(180deg)
     grid-column: 1/2
     grid-row: 1/2
-    opacity: 0.5
-    margin-top: -15px
-
-  &_lamparaP
-    opacity: 0
-  &_Text
-    margin-top: 0
-    font-size: 28px
+    opacity: 0.5   
+    z-index: 0
+    
   &_Button
     // width: 190px
     // height: 60px
@@ -400,11 +399,25 @@
     font-family: 'Font-Condensed-Bold', sans-serif
     font-size: 26px
     transition: all 0.5s ease
-    &:hover
+    &:hover      
       color: $white
-      // opacity: .8
-      // animation: gradient 1s linear 
-      background-position: 50% 0%
+      background-position: 50% 0% 
+     
+  &_lamparaP
+    grid-column: 1/2
+    grid-row: 1/2
+    opacity: 0
+    z-index: 2
+    // filter: contrast(80%)
+    filter: saturate(85%) contrast(110%)
+    transition: all 0.5s ease
+  
+  &_Text
+    margin-top: 0
+    font-size: 28px
+  
+      
+      
  
       
  
