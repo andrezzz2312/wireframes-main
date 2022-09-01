@@ -36,19 +36,27 @@ import DetailCyan from '../assets/details/bottom-detail-cyan.svg'
 import SwiperPrevButton from '../assets/details/swiper-left.svg'
 import SwiperNextButton from '../assets/details/swiper-right.svg'
 import * as THREE from 'three'
-// import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 // import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+
+import moon from '../assets/glb/BlueMoon_full.glb'
 
 const Home = () => {
 	const [title, setTitle] = useState(0)
 	const titleRef = useRef(null)
 	const { pathname } = useLocation()
 	const { language } = useContext(AppContext)
+
+	// let target = { targetX: 0, targetY: 0 }
+	// let mouse = { mouseX: 0, mouseY: 0 }
+	// const windowHalfX = window.innerWidth / 2
+	// const windowHalfY = window.innerHeight / 2
+
 	useEffect(() => {
 		const canvas = document.createElement('canvas')
 		const renderer = new THREE.WebGLRenderer({
@@ -66,6 +74,7 @@ const Home = () => {
 		}
 		const box = document.querySelector('#box')
 		const background = document.querySelector('#background')
+
 		function makeScene(elem) {
 			const scene = new THREE.Scene()
 			const fov = 75
@@ -73,7 +82,7 @@ const Home = () => {
 			const near = 0.1
 			const far = 100
 			const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-			camera.position.set(0, 0, 1.5)
+			camera.position.set(0, 0, 2)
 			camera.lookAt(0, 0, 0)
 			scene.add(camera)
 
@@ -88,7 +97,12 @@ const Home = () => {
 				scene.add(light)
 			}
 
-			return { scene, camera, controls }
+			return {
+				scene,
+				camera,
+				controls,
+				// target, mouse
+			}
 		}
 
 		const DISPLACEMENT_PATH =
@@ -96,28 +110,40 @@ const Home = () => {
 
 		const textureLoader = new THREE.TextureLoader()
 		const gridtexture = textureLoader.load(texture)
-
 		const terraintexture = textureLoader.load(DISPLACEMENT_PATH)
+
 		const sceneInitFunctionsByName = {
 			box: (elem) => {
-				const { scene, camera, controls } = makeScene(elem)
+				const {
+					scene,
+					camera,
+					controls,
+					// target, mouse
+				} = makeScene(elem)
 
-				const geometry = new THREE.BoxBufferGeometry(1, 1, 1)
-				const material = new THREE.MeshBasicMaterial({
-					color: 'red',
+				var moonObj
+				const gltfloader = new GLTFLoader()
+				gltfloader.load(moon, (gltf) => {
+					moonObj = gltf.scene
+					scene.add(moonObj)
 				})
 				var ambient = new THREE.AmbientLight(0xffffff, 0.5)
 
 				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
 				scene.add(ambient)
-				const mesh = new THREE.Mesh(geometry, material)
-				scene.add(mesh)
 
 				return (time, rect) => {
-					mesh.rotation.y = time * 0.1
+					if (moonObj) {
+						moonObj.rotation.y = time * 0.1
+						moonObj.rotation.x = time * 0.1
+						// moonObj.rotation.y += 0.05 * (target.targetX - moonObj.rotation.y)
+						// moonObj.rotation.x += 0.05 * (target.targetY - moonObj.rotation.x)
+					}
+
 					camera.aspect = rect.width / rect.height
 					camera.updateProjectionMatrix()
-					// controls.handleResize()
+					// target.targetX = mouse.mouseX * 0.001
+					// target.targetY = mouse.mouseY * 0.001
 					controls.update()
 					renderer.render(scene, camera)
 				}
@@ -223,7 +249,7 @@ const Home = () => {
 				return () => {
 					const elapsedTime = clock.getElapsedTime()
 					camera.updateProjectionMatrix()
-					// controls.handleResize()
+
 					controls.update()
 					// renderer.render(scene, camera)
 					effectComposer.render(scene, camera)
@@ -295,6 +321,12 @@ const Home = () => {
 
 		requestAnimationFrame(render)
 	}, [])
+
+	// function onDocumentMouseMove(event) {
+	// 	mouse.mouseX = event.clientX - windowHalfX
+	// 	mouse.mouseY = event.clientY - windowHalfY
+	// }
+	// document.addEventListener('mousemove', onDocumentMouseMove)
 
 	function show() {
 		const lamparaP = document.getElementById('lamparaP')
