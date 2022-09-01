@@ -24,9 +24,12 @@ import Companies from '../components/Companies'
 import { AppContext } from '../context/AppContext'
 import * as THREE from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-// import headset from '../assets/scene/headset.gltf'
-// import headsetT from '../assets/scene/textures'
+ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+ //import headset from '../assets/scene/headset.gltf'  
+ import moon from '../assets/glb/BlueMoon_full.glb'
+//import headsetColor from '../assets/scene/textures/material_baseColor.png' 
+//import textureRoughn from '../assets/scene/textures/material_metallicRoughness.png'
+//import textureNormal from '../assets/scene/textures/material_normal.png'
 
 const Servicio = () => {
 	const [data, setData] = useState('')
@@ -35,7 +38,7 @@ const Servicio = () => {
 	const { pathname } = useLocation()
 
 	let scene, camera, renderer, canvas
-	let cube
+	//let cube
 	function init() {
 		scene = new THREE.Scene()
 		canvas = document.getElementById('three')
@@ -52,26 +55,30 @@ const Servicio = () => {
 		renderer.setSize(canvas.offsetWidth, canvas.offsetHeight)
 
 		canvas.appendChild(renderer.domElement)
-
-		const geometry = new THREE.BoxGeometry(2, 2, 2)
+  
+		/*const geometry = new THREE.BoxGeometry(2, 2, 2)
 		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 		cube = new THREE.Mesh(geometry, material)
-		scene.add(cube)
-		// const gltfloader = new GLTFLoader()
-		// gltfloader.load(headset, (gltfScene) => {
-		// 	gltfScene.scene.rotation.y = Math.PI / 8
-		// 	gltfScene.scene.position.y = 0
-		// 	gltfScene.scene.scale.set(15, 15, 15)
-		// 	scene.add(gltfScene.scene)
-		// })
-
+		scene.add(cube)*/ 
+		//const textureLoad = new THREE.TextureLoader() 
+		//const color = textureLoad.load(headsetColor) 
+		//const roughness = textureLoad.load(textureRoughn) 
+		//const matNormal = textureLoad.load(textureNormal)
+	const gltfloader = new GLTFLoader()
+	gltfloader.load(moon, (gltfScene) => { 
+	gltfScene.scene.rotation.y = Math.PI / 8
+	gltfScene.scene.position.y = 0
+	gltfScene.scene.scale.set(10, 10, 10)  
+	
+	scene.add(gltfScene.scene) 
+		})
 		camera.position.z = 5
 	}
 
 	function animate() {
 		requestAnimationFrame(animate)
-		cube.rotation.x += 0.01
-		cube.rotation.y += 0.01
+		//cube.rotation.x += 0.01
+		//cube.rotation.y += 0.01
 		renderer.render(scene, camera)
 	}
 	useEffect(() => {
