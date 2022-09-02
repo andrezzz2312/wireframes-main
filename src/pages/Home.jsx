@@ -41,10 +41,11 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 // import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-
-import moon from '../assets/glb/BlueMoon_full.glb'
+import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
+import moon from '../assets/glb/moonLR.glb'
 
 const Home = () => {
 	const [title, setTitle] = useState(0)
@@ -58,13 +59,29 @@ const Home = () => {
 	// const windowHalfY = window.innerHeight / 2
 
 	useEffect(() => {
-		const canvas = document.createElement('canvas')
+		// const canvas = document.createElement('canvas')
 		const renderer = new THREE.WebGLRenderer({
-			antialias: true,
-			canvas,
-			alpha: true,
+			// antialias: true,
+			// canvas,
+			// alpha: true,
 		})
+
+		renderer.setPixelRatio(window.devicePixelRatio)
+
+		// renderer.toneMappingExposure = Math.pow(0.96, 4)
+
 		renderer.setScissorTest(true)
+
+		const panel = new GUI({ width: 310 })
+
+		const folder1 = panel.addFolder('moon exposure')
+
+		const params = {
+			exposure: 1,
+			bloomStrength: 1.2,
+			bloomThreshold: 0.085,
+			bloomRadius: 0.5,
+		}
 
 		const sceneElements = []
 		function addScene(elem, fn) {
@@ -79,8 +96,9 @@ const Home = () => {
 			const scene = new THREE.Scene()
 			const fov = 75
 			const aspect = box.clientWidth / box.clientHeight
-			const near = 0.1
+			const near = 1
 			const far = 100
+
 			const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
 			camera.position.set(0, 0, 2)
 			camera.lookAt(0, 0, 0)
@@ -127,10 +145,61 @@ const Home = () => {
 					moonObj = gltf.scene
 					scene.add(moonObj)
 				})
-				var ambient = new THREE.AmbientLight(0xffffff, 0.5)
-				scene.add(ambient)				
-				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
 
+				var ambient = new THREE.AmbientLight(0xffffff, 0.5)
+				scene.add(ambient)
+				const pointLight = new THREE.PointLight(0xffffff, 1)
+				camera.add(pointLight)
+				// scene.background = new THREE.Color(0xffffff, 0)
+				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
+				renderer.toneMapping = THREE.ReinhardToneMapping
+				renderer.setClearColor(0x000000, 0)
+				// effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+				const unrealBloom = new UnrealBloomPass(
+					new THREE.Vector2(background.clientWidth, background.clientHeight),
+					1.5,
+					0.4,
+					0.85
+				)
+				unrealBloom.threshold = params.bloomThreshold
+				unrealBloom.strength = params.bloomStrength
+				unrealBloom.radius = params.bloomRadius
+				unrealBloom.renderToScreen = true
+
+				/**
+				 * Add the render path to the composer
+				 * This pass will take care of rendering the final scene
+				 */
+				const renderPass = new RenderPass(scene, camera)
+				const effectComposer = new EffectComposer(renderer)
+				effectComposer.setSize(background.clientWidth, background.clientHeight)
+				effectComposer.addPass(renderPass)
+				effectComposer.addPass(unrealBloom)
+
+				folder1
+					.add(params, 'exposure', -5.0, 5.0)
+
+					.onChange(function (value) {
+						renderer.toneMappingExposure = Math.pow(value, 4.0)
+					})
+				folder1
+					.add(params, 'bloomStrength', -5.0, 5.0)
+
+					.onChange(function (value) {
+						unrealBloom.strength = Number(value)
+					})
+				folder1
+					.add(params, 'bloomThreshold', -5.0, 5.0)
+
+					.onChange(function (value) {
+						unrealBloom.threshold = Number(value)
+					})
+				folder1
+					.add(params, 'bloomRadius', -5.0, 5.0)
+
+					.onChange(function (value) {
+						unrealBloom.radius = Number(value)
+					})
 				return (time, rect) => {
 					if (moonObj) {
 						moonObj.rotation.y = time * 0.1
@@ -138,13 +207,20 @@ const Home = () => {
 						// moonObj.rotation.y += 0.05 * (target.targetX - moonObj.rotation.y)
 						// moonObj.rotation.x += 0.05 * (target.targetY - moonObj.rotation.x)
 					}
+					// scene.background = new THREE.Color(0xf2f2f2)
 
 					camera.aspect = rect.width / rect.height
 					camera.updateProjectionMatrix()
+
 					// target.targetX = mouse.mouseX * 0.001
 					// target.targetY = mouse.mouseY * 0.001
 					controls.update()
-					renderer.render(scene, camera)
+					// renderer.render(scene, camera)
+					// renderer.autoClear = false
+					// renderer.clear()
+					effectComposer.render()
+					// renderer.clearDepth()
+					// renderer.render(scene, camera)
 				}
 			},
 			background: (elem) => {
@@ -190,16 +266,16 @@ const Home = () => {
 				scene.add(ambient)
 				const spotlight = new THREE.SpotLight(
 					'#ffffff',
-					20,
+					50,
 					3,
 					Math.PI * 0.1,
 					0.25
 				)
-				// spotlight.position.set(0, 1, 2)
-				// // Target the spotlight to a specific point to the left of the scene
-				// spotlight.target.position.x = 0
-				// spotlight.target.position.y = 0
-				// spotlight.target.position.z = 0
+				spotlight.position.set(0, 1, 2)
+				// Target the spotlight to a specific point to the left of the scene
+				spotlight.target.position.x = 0
+				spotlight.target.position.y = 0
+				spotlight.target.position.z = 0
 				spotlight.position.set(0.5, 0.75, 2.2)
 				// Target the spotlight to a specific point to the left of the scene
 				spotlight.target.position.x = -0.25
@@ -209,7 +285,7 @@ const Home = () => {
 				scene.add(spotlight.target)
 				const spotlight2 = new THREE.SpotLight(
 					'#ffffff',
-					20,
+					50,
 					3,
 					Math.PI * 0.1,
 					0.25
@@ -227,7 +303,6 @@ const Home = () => {
 				// Add the effectComposer
 				const effectComposer = new EffectComposer(renderer)
 				effectComposer.setSize(background.clientWidth, background.clientHeight)
-				// effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 				/**
 				 * Add the render path to the composer
@@ -235,7 +310,7 @@ const Home = () => {
 				 */
 				const renderPass = new RenderPass(scene, camera)
 				effectComposer.addPass(renderPass)
-
+				// effectComposer.addPass(unrealBloom)
 				// const rgbShiftPass = new ShaderPass(RGBShiftShader)
 				// rgbShiftPass.uniforms['amount'].value = 0.0015
 
@@ -252,6 +327,8 @@ const Home = () => {
 					controls.update()
 					// renderer.render(scene, camera)
 					effectComposer.render(scene, camera)
+
+					// renderer.render(scene, camera)
 
 					plano.position.z = (elapsedTime * 0.15) % 2
 
