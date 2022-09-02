@@ -128,9 +128,8 @@ const Home = () => {
 					scene.add(moonObj)
 				})
 				var ambient = new THREE.AmbientLight(0xffffff, 0.5)
-
+				scene.add(ambient)				
 				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
-				scene.add(ambient)
 
 				return (time, rect) => {
 					if (moonObj) {

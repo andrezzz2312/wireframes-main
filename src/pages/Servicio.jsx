@@ -23,37 +23,46 @@ import styles from '../styles/pages/Servicios.module.sass'
 import Companies from '../components/Companies'
 import { AppContext } from '../context/AppContext'
 import * as THREE from 'three'
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 //import headset from '../assets/scene/headset.gltf'
-import moon from '../assets/glb/BlueMoon_full.glb'
+import meta from '../assets/glb/infinite.glb'
 //import headsetColor from '../assets/scene/textures/material_baseColor.png'
 //import textureRoughn from '../assets/scene/textures/material_metallicRoughness.png'
 //import textureNormal from '../assets/scene/textures/material_normal.png'
-
+let scene, camera, renderer, canvas
 const Servicio = () => {
 	const [data, setData] = useState('')
 	const { language } = useContext(AppContext)
 	const { service } = useParams()
 	const { pathname } = useLocation()
 
-	let scene, camera, renderer, canvas
 	//let cube
+	let controls
 	function init() {
 		scene = new THREE.Scene()
 		canvas = document.getElementById('three')
 		console.log(canvas)
-		camera = new THREE.PerspectiveCamera(
-			75,
-			canvas.offsetWidth / canvas.offsetHeight,
-			0.1,
+		camera = new THREE.OrthographicCamera(
+			// 75,
+			// canvas.offsetWidth / canvas.offsetHeight,
+			// 0.1,
+			// 1000
+			canvas.offsetWidth / -2,
+			canvas.offsetWidth / 2,
+			canvas.offsetHeight / 2,
+			canvas.offsetHeight / -2,
+			-200,
 			1000
 		)
-
+		controls = new OrbitControls(camera, canvas)
 		renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-
+		let ambient = new THREE.AmbientLight(0xffffff, 4)
+		scene.add(ambient)
+		var directional = new THREE.DirectionalLight(0xffffff, 5)
+		scene.add(directional)
 		renderer.setSize(canvas.offsetWidth, canvas.offsetHeight)
-
+		controls.enableZoom = false
 		canvas.appendChild(renderer.domElement)
 
 		/*const geometry = new THREE.BoxGeometry(2, 2, 2)
@@ -65,17 +74,18 @@ const Servicio = () => {
 		//const roughness = textureLoad.load(textureRoughn)
 		//const matNormal = textureLoad.load(textureNormal)
 		const gltfloader = new GLTFLoader()
-		gltfloader.load(moon, (gltfScene) => {
-			gltfScene.scene.rotation.y = Math.PI / 8
+		gltfloader.load(meta, (gltfScene) => {
+			// gltfScene.scene.rotation.y = Math.PI / 8
 			gltfScene.scene.position.y = 0
-			// gltfScene.scene.scale.set(4, 4, 4)
+			gltfScene.scene.scale.set(150, 150, 150)
 
 			scene.add(gltfScene.scene)
 		})
-		camera.position.z = 5
+		camera.position.z = 10
 	}
 
 	function animate() {
+		controls.update()
 		requestAnimationFrame(animate)
 		//cube.rotation.x += 0.01
 		//cube.rotation.y += 0.01
@@ -89,11 +99,13 @@ const Servicio = () => {
 	}, [data])
 
 	function onWindowResize() {
-		camera.aspect = canvas.offsetWidth / canvas.offsetHeight
-		camera.updateProjectionMatrix()
+		// camera.aspect = canvas.offsetWidth / canvas.offsetHeight
+		// a
 		renderer.setSize(canvas.offsetWidth, canvas.offsetHeight)
+
+		camera.updateProjectionMatrix()
 	}
-	window.addEventListener('resize', onWindowResize, false)
+	window.addEventListener('resize', onWindowResize)
 
 	const services = [
 		{
