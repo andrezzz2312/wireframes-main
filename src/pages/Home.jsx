@@ -25,10 +25,8 @@ import Sector3 from '../assets/sectors/sector-3.png'
 import Sector4 from '../assets/sectors/sector-4.png'
 import Sector5 from '../assets/sectors/sector-5.png'
 import Sector6 from '../assets/sectors/sector-6.png'
-import Lampara from '../assets/images/lampara.png'
 import lamparaA from '../assets/images/lamparaA.png'
 import lamparaP from '../assets/images/lamparaP.png'
-
 import texture from '../assets/texture/grid2.png'
 import DetailWhite from '../assets/details/bottom-detail.svg'
 import DetailDark from '../assets/details/bottom-detail-dark.svg'
@@ -37,13 +35,12 @@ import SwiperPrevButton from '../assets/details/swiper-left.svg'
 import SwiperNextButton from '../assets/details/swiper-right.svg'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
-import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
-// import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+// import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
+// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
 import moon from '../assets/glb/moonLR.glb'
 
@@ -59,16 +56,15 @@ const Home = () => {
 	// const windowHalfY = window.innerHeight / 2
 
 	useEffect(() => {
-		// const canvas = document.createElement('canvas')
+		const canvas = document.createElement('canvas')
 		const renderer = new THREE.WebGLRenderer({
-			// antialias: true,
-			// canvas,
-			// alpha: true,
+			antialias: true,
+			canvas,
+			alpha: true,
 		})
-
 		renderer.setPixelRatio(window.devicePixelRatio)
-
-		// renderer.toneMappingExposure = Math.pow(0.96, 4)
+		renderer.setClearColor(0x000000, 0)
+		renderer.toneMapping = THREE.ReinhardToneMapping
 
 		renderer.setScissorTest(true)
 
@@ -78,9 +74,9 @@ const Home = () => {
 
 		const params = {
 			exposure: 1,
-			bloomStrength: 1.2,
-			bloomThreshold: 0.085,
-			bloomRadius: 0.5,
+			bloomStrength: 1.5,
+			bloomThreshold: 0,
+			bloomRadius: 0,
 		}
 
 		const sceneElements = []
@@ -100,7 +96,8 @@ const Home = () => {
 			const far = 100
 
 			const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-			camera.position.set(0, 0, 2)
+			// camera.position.set(0, 0, 2)
+			camera.position.set(-5, 2.5, -3.5)
 			camera.lookAt(0, 0, 0)
 			scene.add(camera)
 
@@ -146,17 +143,19 @@ const Home = () => {
 					scene.add(moonObj)
 				})
 
-				var ambient = new THREE.AmbientLight(0xffffff, 0.5)
-				scene.add(ambient)
+				// var ambient = new THREE.AmbientLight(0xffffff, 0.5)
+				// scene.add(ambient)
+				// const pointLight = new THREE.PointLight(0xffffff, 1)
+				// camera.add(pointLight)
+				scene.add(new THREE.AmbientLight(0x404040))
 				const pointLight = new THREE.PointLight(0xffffff, 1)
 				camera.add(pointLight)
-				// scene.background = new THREE.Color(0xffffff, 0)
-				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
+
 				renderer.toneMapping = THREE.ReinhardToneMapping
 				renderer.setClearColor(0x000000, 0)
 				// effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 				const unrealBloom = new UnrealBloomPass(
-					new THREE.Vector2(background.clientWidth, background.clientHeight),
+					new THREE.Vector2(box.innerWidth, box.innerHeight),
 					1.5,
 					0.4,
 					0.85
@@ -164,7 +163,6 @@ const Home = () => {
 				unrealBloom.threshold = params.bloomThreshold
 				unrealBloom.strength = params.bloomStrength
 				unrealBloom.radius = params.bloomRadius
-				unrealBloom.renderToScreen = true
 
 				/**
 				 * Add the render path to the composer
@@ -172,7 +170,7 @@ const Home = () => {
 				 */
 				const renderPass = new RenderPass(scene, camera)
 				const effectComposer = new EffectComposer(renderer)
-				effectComposer.setSize(background.clientWidth, background.clientHeight)
+				effectComposer.setSize(box.clientWidth, box.clientHeight)
 				effectComposer.addPass(renderPass)
 				effectComposer.addPass(unrealBloom)
 
@@ -316,8 +314,8 @@ const Home = () => {
 
 				// effectComposer.addPass(rgbShiftPass)
 
-				const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader)
-				effectComposer.addPass(gammaCorrectionPass)
+				// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader)
+				// effectComposer.addPass(gammaCorrectionPass)
 				const clock = new THREE.Clock()
 
 				return () => {
@@ -1541,12 +1539,6 @@ const Home = () => {
 
 			{/* Idea */}
 			<section className={styles.Idea}>
-				<img
-					className={styles.Idea_Image}
-					src={Lampara}
-					width={250}
-					alt='¿Tienes una idea brillante?'
-				/>
 				<div className={styles.Idea_Text_Container}>
 					<h2 className={styles.Idea_Title} data-aos='fade-up'>
 						Do you have a good idea
