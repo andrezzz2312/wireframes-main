@@ -572,7 +572,7 @@ const Home = () => {
 		}
 	}, [titleRef, title])
 
-	if (language === 'es')
+	if (language === 'en')
 		return (
 			<main>
 				<Helmet>
