@@ -12,7 +12,7 @@ import { Navigation } from 'swiper'
 import { gsap } from 'gsap'
 // import { AppContext } from '../context/AppContext'
 import Companies from '../components/Companies'
-import Form from '../components/Form'
+// import Form from '../components/Form'
 import styles from '../styles/pages/Home.module.sass'
 // import Planet from '../assets/images/planet.png'
 import PlayIcon from '../assets/images/visor-button-icon.png'
@@ -73,6 +73,7 @@ const Home = () => {
 
 		const panel = new GUI({ width: 310 })
 
+		const folder2 = panel.addFolder('moon exposure')
 		const folder1 = panel.addFolder('moon exposure')
 
 		const params = {
@@ -170,31 +171,6 @@ const Home = () => {
 				effectComposer.addPass(renderPass)
 				effectComposer.addPass(unrealBloom)
 
-				folder1
-					.add(params, 'exposure', -5.0, 5.0)
-
-					.onChange(function (value) {
-						renderer.toneMappingExposure = Math.pow(value, 4.0)
-					})
-				folder1
-					.add(params, 'bloomStrength', -5.0, 5.0)
-
-					.onChange(function (value) {
-						unrealBloom.strength = Number(value)
-					})
-				folder1
-					.add(params, 'bloomThreshold', -5.0, 5.0)
-
-					.onChange(function (value) {
-						unrealBloom.threshold = Number(value)
-					})
-				folder1
-					.add(params, 'bloomRadius', -5.0, 5.0)
-
-					.onChange(function (value) {
-						unrealBloom.radius = Number(value)
-					})
-
 				function onPointerMove(event) {
 					mouse.x = (event.clientX / window.innerWidth) * 2 - 1
 					mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
@@ -253,6 +229,42 @@ const Home = () => {
 
 				camera.position.set(0, 0.06, 1.1)
 
+				folder1
+					.add(params, 'exposure', -5.0, 5.0)
+
+					.onChange(function (value) {
+						renderer.toneMappingExposure = Math.pow(value, 4.0)
+					})
+				folder1
+					.add(params, 'bloomStrength', -5.0, 5.0)
+
+					.onChange(function (value) {
+						unrealBloom.strength = Number(value)
+					})
+				folder1
+					.add(params, 'bloomThreshold', -5.0, 5.0)
+
+					.onChange(function (value) {
+						unrealBloom.threshold = Number(value)
+					})
+				folder1
+					.add(params, 'bloomRadius', -5.0, 5.0)
+
+					.onChange(function (value) {
+						unrealBloom.radius = Number(value)
+					})
+				folder2
+					.add(params, 'exposure', -5.0, 5.0)
+
+					.onChange(function (value) {
+						renderer.toneMappingExposure = Math.pow(value, 4.0)
+					})
+				folder2
+					.add(params, 'bloomStrength', -5.0, 5.0)
+
+					.onChange(function (value) {
+						unrealBloom.strength = Number(value)
+					})
 				var geometry = new THREE.PlaneBufferGeometry(1, 3, 24, 24)
 				var material = new THREE.MeshStandardMaterial({
 					map: gridtexture,
@@ -277,59 +289,72 @@ const Home = () => {
 
 				scene.add(plano, plano2)
 
-				const fog = new THREE.Fog('#25719a', 0.5, 3.5)
+				const fog = new THREE.Fog('#1e1e1e', 0.5, 3.5)
 				scene.fog = fog
 				//luces ambientales
 				var ambient = new THREE.AmbientLight(0xffffff, 10)
 				//var directional = new THREE.DirectionalLight(0xffffff, 0.9)
 				scene.add(ambient)
-				const spotlight = new THREE.SpotLight(
-					'#ffffff',
-					50,
-					3,
-					Math.PI * 0.1,
-					0.25
-				)
-				spotlight.position.set(0, 1, 2)
-				// Target the spotlight to a specific point to the left of the scene
-				spotlight.target.position.x = 0
-				spotlight.target.position.y = 0
-				spotlight.target.position.z = 0
-				spotlight.position.set(0.5, 0.75, 2.2)
-				// Target the spotlight to a specific point to the left of the scene
-				spotlight.target.position.x = -0.25
-				spotlight.target.position.y = 0.25
-				spotlight.target.position.z = 0.25
-				scene.add(spotlight)
-				scene.add(spotlight.target)
-				const spotlight2 = new THREE.SpotLight(
-					'#ffffff',
-					50,
-					3,
-					Math.PI * 0.1,
-					0.25
-				)
+				const pointLight = new THREE.PointLight(0xffffff, 1)
+				camera.add(pointLight)
+				// const spotlight = new THREE.SpotLight(
+				// 	'#ffffff',
+				// 	50,
+				// 	3,
+				// 	Math.PI * 0.1,
+				// 	0.25
+				// )
+				// spotlight.position.set(0, 1, 2)
+				// // Target the spotlight to a specific point to the left of the scene
+				// spotlight.target.position.x = 0
+				// spotlight.target.position.y = 0
+				// spotlight.target.position.z = 0
+				// spotlight.position.set(0.5, 0.75, 2.2)
+				// // Target the spotlight to a specific point to the left of the scene
+				// spotlight.target.position.x = -0.25
+				// spotlight.target.position.y = 0.25
+				// spotlight.target.position.z = 0.25
+				// scene.add(spotlight)
+				// scene.add(spotlight.target)
+				// const spotlight2 = new THREE.SpotLight(
+				// 	'#ffffff',
+				// 	50,
+				// 	3,
+				// 	Math.PI * 0.1,
+				// 	0.25
+				// )
 
-				spotlight2.position.set(-0.5, 0.75, 2.2)
-				// Target the spotlight to a specific point to the right side of the scene
-				spotlight2.target.position.x = 0.25
-				spotlight2.target.position.y = 0.25
-				spotlight2.target.position.z = 0.25
-				scene.add(spotlight2)
-				scene.add(spotlight2.target)
+				// spotlight2.position.set(-0.5, 0.75, 2.2)
+				// // Target the spotlight to a specific point to the right side of the scene
+				// spotlight2.target.position.x = 0.25
+				// spotlight2.target.position.y = 0.25
+				// spotlight2.target.position.z = 0.25
+				// scene.add(spotlight2)
+				// scene.add(spotlight2.target)
 
-				// Post Processing
-				// Add the effectComposer
+				const unrealBloom = new UnrealBloomPass(
+					new THREE.Vector2(background.offsetWidth, background.offsetHeight),
+					1.5,
+					0.4,
+					0.85
+				)
+				unrealBloom.threshold = params.bloomThreshold
+				unrealBloom.strength = params.bloomStrength
+				unrealBloom.radius = params.bloomRadius
+
+				const renderPass = new RenderPass(scene, camera)
 				const effectComposer = new EffectComposer(renderer)
 				effectComposer.setSize(background.clientWidth, background.clientHeight)
-
-				/**
-				 * Add the render path to the composer
-				 * This pass will take care of rendering the final scene
-				 */
-				const renderPass = new RenderPass(scene, camera)
 				effectComposer.addPass(renderPass)
+				effectComposer.addPass(unrealBloom)
+
+				// const effectComposer = new EffectComposer(renderer)
+				// effectComposer.setSize(background.clientWidth, background.clientHeight)
+
+				// const renderPass = new RenderPass(scene, camera)
+				// effectComposer.addPass(renderPass)
 				// effectComposer.addPass(unrealBloom)
+
 				// const rgbShiftPass = new ShaderPass(RGBShiftShader)
 				// rgbShiftPass.uniforms['amount'].value = 0.0015
 
@@ -1097,9 +1122,9 @@ const Home = () => {
 					data-diagram='background'
 					className={`${styles.background} `}
 				></span>
-				<div className={`${styles.Contact} container `}>
+				{/* <div className={`${styles.Contact} container `}>
 					<Form />
-				</div>
+				</div> */}
 			</div>
 		</main>
 	)
