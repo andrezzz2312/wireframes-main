@@ -27,17 +27,23 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 //import headset from '../assets/scene/headset.gltf'
 import meta from '../assets/glb/infinite.glb'
+import headset from '../assets/glb/headset.glb'
+
 //import headsetColor from '../assets/scene/textures/material_baseColor.png'
 //import textureRoughn from '../assets/scene/textures/material_metallicRoughness.png'
 //import textureNormal from '../assets/scene/textures/material_normal.png'
 let scene, camera, renderer, canvas
+let metaScene = false
+let headsetScene = false
+const gltfloader = new GLTFLoader()
 const Servicio = () => {
 	const [data, setData] = useState('')
 	const { language } = useContext(AppContext)
 	const { service } = useParams()
 	const { pathname } = useLocation()
+	// const [threeModel, setThreeModel] = useState()
+	const [webInit, setWebInit] = useState(false)
 
-	//let cube
 	let controls
 	function init() {
 		scene = new THREE.Scene()
@@ -65,25 +71,39 @@ const Servicio = () => {
 		controls.enableZoom = false
 		canvas.appendChild(renderer.domElement)
 
-		/*const geometry = new THREE.BoxGeometry(2, 2, 2)
-		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-		cube = new THREE.Mesh(geometry, material)
-		scene.add(cube)*/
-		//const textureLoad = new THREE.TextureLoader()
-		//const color = textureLoad.load(headsetColor)
-		//const roughness = textureLoad.load(textureRoughn)
-		//const matNormal = textureLoad.load(textureNormal)
-		const gltfloader = new GLTFLoader()
-		gltfloader.load(meta, (gltfScene) => {
-			// gltfScene.scene.rotation.y = Math.PI / 8
-			gltfScene.scene.position.y = 0
-			gltfScene.scene.scale.set(150, 150, 150)
-
-			scene.add(gltfScene.scene)
-		})
+		// gltfloader.load(meta, (gltfScene) => {
+		// 	const model = gltfScene.scene
+		// 	// gltfScene.scene.rotation.y = Math.PI / 8
+		// 	gltfScene.scene.position.y = 0
+		// 	gltfScene.scene.scale.set(150, 150, 150)
+		// 	scene.add(model)
+		// 	metaScene = model
+		// })
 		camera.position.z = 10
 	}
 
+	function loadGLTF(object) {
+		if (metaScene) scene.remove(metaScene)
+		if (headsetScene) scene.remove(headsetScene)
+
+		gltfloader.load(object, (gltfScene) => {
+			const model = gltfScene.scene
+			// gltfScene.scene.rotation.y = Math.PI / 8
+			if (object === meta) {
+				gltfScene.scene.position.y = 0
+				gltfScene.scene.scale.set(150, 150, 150)
+				metaScene = model
+			}
+			if (object === headset) {
+				gltfScene.scene.position.y = 0
+				gltfScene.scene.rotation.y = 7
+				gltfScene.scene.rotation.x = 0.3
+				gltfScene.scene.scale.set(150, 150, 150)
+				headsetScene = model
+			}
+			scene.add(model)
+		})
+	}
 	function animate() {
 		controls.update()
 		requestAnimationFrame(animate)
@@ -92,9 +112,13 @@ const Servicio = () => {
 		renderer.render(scene, camera)
 	}
 	useEffect(() => {
+		console.log('data')
 		if (data) {
-			init()
-			animate()
+			if (!webInit) {
+				init()
+				animate()
+				setWebInit(true)
+			}
 		}
 	}, [data])
 
@@ -109,6 +133,7 @@ const Servicio = () => {
 
 	const services = [
 		{
+			three: headset,
 			title: 'Realidad Virtual',
 			description:
 				'Rehacemos ambientes tridimensionales, dondel el usuario podrá experimentar a través del uso de gafas VR',
@@ -211,6 +236,7 @@ const Servicio = () => {
 			],
 		},
 		{
+			three: meta,
 			title: 'Servicios de Metaverso',
 			description:
 				'Creamos, desarrollamos e implementamos ambientes virtuales interactivos y optimizados.',
@@ -394,6 +420,7 @@ const Servicio = () => {
 		switch (service) {
 			case 'realidad-virtual':
 				index = 0
+				loadGLTF(headset)
 				break
 			case 'realidad-aumentada':
 				index = 1
@@ -403,6 +430,7 @@ const Servicio = () => {
 				break
 			case 'metaverso':
 				index = 3
+				loadGLTF(meta)
 				break
 
 			default:

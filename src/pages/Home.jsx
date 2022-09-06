@@ -43,9 +43,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
-// import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
-// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { UnrealBloomPass } from '../bloom/bloom/UnrealBloomPass.js'
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
 import moon from '../assets/glb/moonLR.glb'
 
@@ -78,10 +76,10 @@ const Home = () => {
 		const folder1 = panel.addFolder('moon exposure')
 
 		const params = {
-			exposure: 1,
-			bloomStrength: 1.5,
-			bloomThreshold: 0,
-			bloomRadius: 0,
+			exposure: 1.07,
+			bloomStrength: 0.73,
+			bloomThreshold: -0.29,
+			bloomRadius: -0.46,
 		}
 
 		const sceneElements = []
@@ -101,8 +99,8 @@ const Home = () => {
 			const far = 100
 
 			const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-			// camera.position.set(0, 0, 2)
-			camera.position.set(-5, 2.5, -3.5)
+			camera.position.set(0, 0, 2)
+			// camera.position.set(-5, 2.5, -3.5)
 			camera.lookAt(0, 0, 0)
 			scene.add(camera)
 
@@ -140,7 +138,8 @@ const Home = () => {
 					controls,
 					// target, mouse
 				} = makeScene(elem)
-
+				var caster = new THREE.Raycaster()
+				var mouse = new THREE.Vector2()
 				var moonObj
 				const gltfloader = new GLTFLoader()
 				gltfloader.load(moon, (gltf) => {
@@ -148,11 +147,7 @@ const Home = () => {
 					scene.add(moonObj)
 				})
 
-				// var ambient = new THREE.AmbientLight(0xffffff, 0.5)
-				// scene.add(ambient)
-				// const pointLight = new THREE.PointLight(0xffffff, 1)
-				// camera.add(pointLight)
-				scene.add(new THREE.AmbientLight(0x404040))
+				scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 				const pointLight = new THREE.PointLight(0xffffff, 1)
 				camera.add(pointLight)
 
@@ -169,10 +164,6 @@ const Home = () => {
 				unrealBloom.strength = params.bloomStrength
 				unrealBloom.radius = params.bloomRadius
 
-				/**
-				 * Add the render path to the composer
-				 * This pass will take care of rendering the final scene
-				 */
 				const renderPass = new RenderPass(scene, camera)
 				const effectComposer = new EffectComposer(renderer)
 				effectComposer.setSize(box.clientWidth, box.clientHeight)
@@ -203,14 +194,44 @@ const Home = () => {
 					.onChange(function (value) {
 						unrealBloom.radius = Number(value)
 					})
+
+				function onPointerMove(event) {
+					mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+					mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+					//console.log('x: ' + mouse.x, 'y: ' +mouse.y)
+					caster.setFromCamera(mouse, camera)
+					//const objetos =[moonObj]
+					const intersectObject = caster.intersectObject(moonObj)
+					if (intersectObject) {
+						currentObject = intersectObject[0]
+						// console.log(currentObject)
+					} else {
+						currentObject = null
+						//moonObj.rotation.y +=  0.1
+					}
+				}
+				let currentObject = null
+
+				window.addEventListener('mousemove', onPointerMove)
 				return (time, rect) => {
+					// if (moonObj) {
+					// 	moonObj.rotation.y = time * 0.1
+					// 	moonObj.rotation.x = time * 0.1
+
+					// 	// moonObj.rotation.y += 0.05 * (target.targetX - moonObj.rotation.y)
+					// 	// moonObj.rotation.x += 0.05 * (target.targetY - moonObj.rotation.x)
+					// }
 					if (moonObj) {
-						moonObj.rotation.y = time * 0.1
-						moonObj.rotation.x = time * 0.1
+						if (currentObject) {
+							moonObj.rotation.y += 0
+						} else {
+							moonObj.rotation.y += 0.003
+							moonObj.rotation.x += 0.003
+						}
+
 						// moonObj.rotation.y += 0.05 * (target.targetX - moonObj.rotation.y)
 						// moonObj.rotation.x += 0.05 * (target.targetY - moonObj.rotation.x)
 					}
-					// scene.background = new THREE.Color(0xf2f2f2)
 
 					camera.aspect = rect.width / rect.height
 					camera.updateProjectionMatrix()
@@ -218,12 +239,7 @@ const Home = () => {
 					// target.targetX = mouse.mouseX * 0.001
 					// target.targetY = mouse.mouseY * 0.001
 					controls.update()
-					// renderer.render(scene, camera)
-					// renderer.autoClear = false
-					// renderer.clear()
 					effectComposer.render()
-					// renderer.clearDepth()
-					// renderer.render(scene, camera)
 				}
 			},
 			background: (elem) => {
