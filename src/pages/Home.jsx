@@ -46,6 +46,8 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from '../bloom/bloom/UnrealBloomPass.js'
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
 import moon from '../assets/glb/moonLR.glb'
+import logoAsset from '../assets/glb/3DLogo.glb'
+import edificioAsset from '../assets/glb/Buildings.glb'
 
 const Home = () => {
 	const [title, setTitle] = useState(0)
@@ -273,7 +275,32 @@ const Home = () => {
 					metalness: 0.95,
 					roughness: 0.5,
 				})
+				let logo
+				let edificios
+				var loaderAsset = new GLTFLoader()
+				//añadiendo logo y edificio
+				loaderAsset.load(logoAsset, function (gltf) {
+					const model = gltf.scene
 
+					gltf.scene.scale.set(5, 5, 5)
+					gltf.scene.rotation.set(0.15, 1.5, 0)
+					gltf.scene.position.set(0, 0, 0.4)
+					logo = model
+					console.log(logo)
+					scene.add(model)
+				})
+				loaderAsset.load(edificioAsset, function (gltf) {
+					const model = gltf.scene
+					gltf.scene.position.set(0, 0, -0.9)
+					gltf.scene.scale.set(10, 25, 30)
+					gltf.scene.rotation.set(0, 4.72, 0)
+					//edificios.children[0].visible = false
+					gltf.scene.children[1].material.wireframe = true
+					gltf.scene.children[2].material.wireframe = true
+					edificios = model
+					console.log(edificios)
+					scene.add(model)
+				})
 				// const controls = new OrbitControls(camera, background)
 
 				controls.enableDamping = true
@@ -339,7 +366,7 @@ const Home = () => {
 					0.85
 				)
 				unrealBloom.threshold = params.bloomThreshold
-				unrealBloom.strength = params.bloomStrength
+				unrealBloom.strength = 0.55
 				unrealBloom.radius = params.bloomRadius
 
 				const renderPass = new RenderPass(scene, camera)
