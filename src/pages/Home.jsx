@@ -284,7 +284,7 @@ const Home = () => {
 
 					gltf.scene.scale.set(5, 5, 5)
 					gltf.scene.rotation.set(0.15, 1.5, 0)
-					gltf.scene.position.set(0, 0, 0.4)
+					gltf.scene.position.set(0, -0.1, 0.5)
 					logo = model
 					console.log(logo)
 					scene.add(model)
@@ -295,11 +295,50 @@ const Home = () => {
 					gltf.scene.scale.set(10, 25, 30)
 					gltf.scene.rotation.set(0, 4.72, 0)
 					//edificios.children[0].visible = false
-					gltf.scene.children[1].material.wireframe = true
-					gltf.scene.children[2].material.wireframe = true
+					// gltf.scene.children[1].material.wireframe = true
+					// gltf.scene.children[2].material.wireframe = true
 					edificios = model
 					console.log(edificios)
-					scene.add(model)
+					// mesh
+					var material = new THREE.MeshPhongMaterial({
+						color: 0x000c0f,
+						polygonOffset: true,
+						polygonOffsetFactor: 1, // positive value pushes polygon further away
+						polygonOffsetUnits: 1,
+					})
+					const ex1 = gltf.scene.getObjectByName('Cube022')
+					var mesh = new THREE.Mesh(ex1.geometry, material)
+					mesh.scale.set(40, 50, 40)
+					mesh.rotation.set(0, 4.72, 0)
+					mesh.position.set(0.7, -0.5, -2)
+
+					var mesh2 = new THREE.Mesh(ex1.geometry, material)
+					mesh2.scale.set(40, 50, 40)
+					mesh2.rotation.set(0, 1, 0)
+					mesh2.position.set(3, -0.5, -1)
+
+					var mesh3 = new THREE.Mesh(ex1.geometry, material)
+					mesh3.scale.set(40, 50, 40)
+					mesh3.rotation.set(0, -1, 0)
+					mesh3.position.set(-2.2, -0.5, -1.5)
+
+					var geo = new THREE.EdgesGeometry(mesh.geometry) // or WireframeGeometry
+					var geo2 = new THREE.EdgesGeometry(mesh2.geometry) // or WireframeGeometry
+					var geo3 = new THREE.EdgesGeometry(mesh2.geometry) // or WireframeGeometry
+					var mat = new THREE.LineBasicMaterial({ color: 0xffffff })
+					var wireframe = new THREE.LineSegments(geo, mat)
+					var wireframe2 = new THREE.LineSegments(geo2, mat)
+					var wireframe3 = new THREE.LineSegments(geo3, mat)
+					// wireframe.scale.set(10, 25, 30)
+					mesh.add(wireframe)
+					mesh2.add(wireframe2)
+					mesh3.add(wireframe3)
+
+					scene.add(mesh)
+					scene.add(mesh2)
+					scene.add(mesh3)
+
+					// scene.add(model)
 				})
 				// const controls = new OrbitControls(camera, background)
 
@@ -316,7 +355,7 @@ const Home = () => {
 
 				scene.add(plano, plano2)
 
-				const fog = new THREE.Fog('#1e1e1e', 0.5, 3.5)
+				const fog = new THREE.Fog('#081c1f', 0.5, 3.5)
 				scene.fog = fog
 				//luces ambientales
 				var ambient = new THREE.AmbientLight(0xffffff, 10)
@@ -394,7 +433,9 @@ const Home = () => {
 				return () => {
 					const elapsedTime = clock.getElapsedTime()
 					camera.updateProjectionMatrix()
-
+					if (logo) {
+						logo.rotation.y = elapsedTime * 0.75
+					}
 					controls.update()
 					// renderer.render(scene, camera)
 					effectComposer.render(scene, camera)
