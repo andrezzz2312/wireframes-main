@@ -17,6 +17,8 @@ import {
 import { AppContext } from '../context/AppContext'
 import styles from '../styles/containers/Footer.module.sass'
 
+import Button3D from '../components/Button3D'
+
 const Footer = () => {
 	const { language } = useContext(AppContext)
 
@@ -55,60 +57,54 @@ const Footer = () => {
 								</span>
 							</div>
 							<div className={styles.Data_Networks}>
-								<a
-									className={styles.Data_Network_Item}
-									href='https://www.facebook.com/Wireframe-Reality-111678261391750'
-									target='_blank'
-									rel='noopener noreferrer'
-									aria-label='Facebook'
-								>
-									<FontAwesomeIcon icon={faFacebookF} />
-								</a>
-								<a
-									className={styles.Data_Network_Item}
-									href='https://twitter.com/wireframe_ec'
-									target='_blank'
-									rel='noopener noreferrer'
-									aria-label='Twitter'
-								>
-									<FontAwesomeIcon icon={faTwitter} />
-								</a>
-								<a
-									className={styles.Data_Network_Item}
-									href=' https://www.instagram.com/wireframereality/reels/'
-									target='_blank'
-									rel='noopener noreferrer'
-									aria-label='Instagram'
-								>
-									<FontAwesomeIcon icon={faInstagram} />
-								</a>
-								<a
-									className={styles.Data_Network_Item}
-									href='https://www.tiktok.com/@wireframerealitysas'
-									target='_blank'
-									rel='noopener noreferrer'
-									aria-label='Tiktok'
-								>
-									<FontAwesomeIcon icon={faTiktok} />
-								</a>
-								<a
-									className={styles.Data_Network_Item}
-									href='https://www.linkedin.com/company/wireframe-reality/'
-									target='_blank'
-									rel='noopener noreferrer'
-									aria-label='Linkedin'
-								>
-									<FontAwesomeIcon icon={faLinkedinIn} />
-								</a>
-								<a
-									className={styles.Data_Network_Item}
-									href='https://www.youtube.com/channel/UCSbZ_vjG7798mOxECk_-orQ/featured'
-									target='_blank'
-									rel='noopener noreferrer'
-									aria-label='Youtube'
-								>
-									<FontAwesomeIcon icon={faYoutube} />
-								</a>
+								<Button3D
+									props={{
+										style: { opacity: 1 },
+										content: <FontAwesomeIcon icon={faFacebookF} />,
+										href: 'https://www.facebook.com/Wireframe-Reality-111678261391750',
+										target: '_blank',
+									}}
+								/>
+								<Button3D
+									props={{
+										style: { opacity: 1 },
+										content: <FontAwesomeIcon icon={faTwitter} />,
+										href: 'https://twitter.com/wireframe_ec',
+										target: '_blank',
+									}}
+								/>
+								<Button3D
+									props={{
+										style: { opacity: 1 },
+										content: <FontAwesomeIcon icon={faInstagram} />,
+										href: 'https://www.instagram.com/wireframereality/reels/',
+										target: '_blank',
+									}}
+								/>
+								<Button3D
+									props={{
+										style: { opacity: 1 },
+										content: <FontAwesomeIcon icon={faTiktok} />,
+										href: 'https://www.tiktok.com/@wireframerealitysas',
+										target: '_blank',
+									}}
+								/>
+								<Button3D
+									props={{
+										style: { opacity: 1 },
+										content: <FontAwesomeIcon icon={faLinkedinIn} />,
+										href: 'https://www.linkedin.com/company/wireframe-reality/',
+										target: '_blank',
+									}}
+								/>
+								<Button3D
+									props={{
+										style: { opacity: 1 },
+										content: <FontAwesomeIcon icon={faYoutube} />,
+										href: 'https://www.youtube.com/channel/UCSbZ_vjG7798mOxECk_-orQ/featured',
+										target: '_blank',
+									}}
+								/>
 							</div>
 						</div>
 						<div className='col-12 col-lg-4 mb-5 ps-0 ps-lg-2'>
