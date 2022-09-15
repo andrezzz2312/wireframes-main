@@ -28,6 +28,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 //import headset from '../assets/scene/headset.gltf'
 import meta from '../assets/glb/infinite.glb'
 import headset from '../assets/glb/headset.glb'
+import iphone from '../assets/glb/iphone.glb'
+import pantalla from '../assets/glb/pantalla.glb'
 
 //import headsetColor from '../assets/scene/textures/material_baseColor.png'
 //import textureRoughn from '../assets/scene/textures/material_metallicRoughness.png'
@@ -35,6 +37,8 @@ import headset from '../assets/glb/headset.glb'
 let scene, camera, renderer, canvas
 let metaScene = false
 let headsetScene = false
+let iphoneScene = false
+let pantallaScene = false
 const gltfloader = new GLTFLoader()
 const Servicio = () => {
 	const [data, setData] = useState('')
@@ -85,6 +89,8 @@ const Servicio = () => {
 	function loadGLTF(object) {
 		if (metaScene) scene.remove(metaScene)
 		if (headsetScene) scene.remove(headsetScene)
+		if (iphoneScene) scene.remove(iphoneScene)
+		if (pantallaScene) scene.remove(pantallaScene)
 
 		gltfloader.load(object, (gltfScene) => {
 			const model = gltfScene.scene
@@ -100,6 +106,17 @@ const Servicio = () => {
 				gltfScene.scene.rotation.x = 0.3
 				gltfScene.scene.scale.set(150, 150, 150)
 				headsetScene = model
+			}
+			if (object === iphone) {
+				gltfScene.scene.position.y = 0
+				gltfScene.scene.scale.set(1500, 1500, 1500)
+				iphoneScene = model
+			}
+			if (object === pantalla) {
+				gltfScene.scene.position.y = -80
+				gltfScene.scene.position.z = -25
+				gltfScene.scene.scale.set(500, 500, 500)
+				pantallaScene = model
 			}
 			scene.add(model)
 		})
@@ -170,6 +187,7 @@ const Servicio = () => {
 			],
 		},
 		{
+			three: iphone,
 			title: 'Realidad Aumentada',
 			description:
 				'Agregamos a nuestra realidad elementos virtuales que se pueden visualizar a través de la cámara de dispositivos móviles.',
@@ -200,6 +218,7 @@ const Servicio = () => {
 			],
 		},
 		{
+			three: pantalla,
 			title: 'Experiencias 3D en la Web',
 			description:
 				'Creamos contenido interactivo 3D para visualizarse desde una página web.',
@@ -424,9 +443,11 @@ const Servicio = () => {
 				break
 			case 'realidad-aumentada':
 				index = 1
+				loadGLTF(iphone)
 				break
 			case 'experiencias-3D':
 				index = 2
+				loadGLTF(pantalla)
 				break
 			case 'metaverso':
 				index = 3
