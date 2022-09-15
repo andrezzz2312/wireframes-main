@@ -24,7 +24,7 @@ const App = () => {
 		AOS.init({
 			duration: 1000,
 			easing: 'ease-out',
-			once: true
+			once: true,
 		})
 	}, [])
 
@@ -33,11 +33,11 @@ const App = () => {
 			<BrowserRouter>
 				<Layout>
 					<Routes>
-						<Route path="/" element={<Home/>}/>
-						<Route path="/servicio/:service" element={<Servicio/>}/>
-						<Route path="/portafolio" element={<Portafolio/>}/>
-						<Route path="/nosotros" element={<Nosotros/>}/>
-						<Route path="/contacto" element={<Contacto/>}/>
+						<Route path='/' element={<Home />} />
+						<Route path='/servicio/:service' element={<Servicio />} />
+						<Route path='/portafolio' element={<Portafolio />} />
+						<Route path='/nosotros' element={<Nosotros />} />
+						<Route path='/contacto' element={<Contacto />} />
 					</Routes>
 				</Layout>
 			</BrowserRouter>
