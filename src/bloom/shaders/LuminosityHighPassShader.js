@@ -56,4 +56,3 @@ const LuminosityHighPassShader = {
 }
 
 export { LuminosityHighPassShader }
-

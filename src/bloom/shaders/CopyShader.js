@@ -37,4 +37,3 @@ const CopyShader = {
 }
 
 export { CopyShader }
-
