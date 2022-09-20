@@ -21,6 +21,8 @@
 		// "indent": ["error", "tab"],
 		// "linebreak-style": ["error", "windows"],
 
+		"no-unused-vars": "off",
+
 		"quotes": ["error", "single"],
 		"semi": ["error", "never"],
 		"react/prop-types": [0]

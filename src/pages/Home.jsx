@@ -44,7 +44,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from '../bloom/bloom/UnrealBloomPass.js'
-import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
+
 import moon from '../assets/glb/moonLR.glb'
 import logoAsset from '../assets/glb/3DLogo.glb'
 import edificioAsset from '../assets/glb/Buildings.glb'
@@ -72,11 +72,6 @@ const Home = () => {
 		renderer.toneMapping = THREE.ReinhardToneMapping
 
 		renderer.setScissorTest(true)
-
-		const panel = new GUI({ width: 310 })
-
-		const folder2 = panel.addFolder('moon exposure')
-		const folder1 = panel.addFolder('moon exposure')
 
 		const params = {
 			exposure: 1.07,
@@ -181,15 +176,21 @@ const Home = () => {
 					//const objetos =[moonObj]
 					const intersectObject = caster.intersectObject(moonObj)
 					if (intersectObject) {
-						currentObject = intersectObject[0]
+						// currentObject = intersectObject[0]
 						// console.log(currentObject)
 					} else {
-						currentObject = null
+						// currentObject = null
 						//moonObj.rotation.y +=  0.1
 					}
 				}
-				let currentObject = null
-
+				let hover = false
+				// let currentObject = null
+				box.addEventListener('mouseover', () => {
+					hover = true
+				})
+				box.addEventListener('mouseout', () => {
+					hover = false
+				})
 				window.addEventListener('mousemove', onPointerMove)
 				return (time, rect) => {
 					// if (moonObj) {
@@ -199,8 +200,9 @@ const Home = () => {
 					// 	// moonObj.rotation.y += 0.05 * (target.targetX - moonObj.rotation.y)
 					// 	// moonObj.rotation.x += 0.05 * (target.targetY - moonObj.rotation.x)
 					// }
+
 					if (moonObj) {
-						if (currentObject) {
+						if (hover) {
 							moonObj.rotation.y += 0
 						} else {
 							moonObj.rotation.y += 0.003
@@ -231,42 +233,6 @@ const Home = () => {
 
 				camera.position.set(0, 0.06, 1.1)
 
-				folder1
-					.add(params, 'exposure', -5.0, 5.0)
-
-					.onChange(function (value) {
-						renderer.toneMappingExposure = Math.pow(value, 4.0)
-					})
-				folder1
-					.add(params, 'bloomStrength', -5.0, 5.0)
-
-					.onChange(function (value) {
-						unrealBloom.strength = Number(value)
-					})
-				folder1
-					.add(params, 'bloomThreshold', -5.0, 5.0)
-
-					.onChange(function (value) {
-						unrealBloom.threshold = Number(value)
-					})
-				folder1
-					.add(params, 'bloomRadius', -5.0, 5.0)
-
-					.onChange(function (value) {
-						unrealBloom.radius = Number(value)
-					})
-				folder2
-					.add(params, 'exposure', -5.0, 5.0)
-
-					.onChange(function (value) {
-						renderer.toneMappingExposure = Math.pow(value, 4.0)
-					})
-				folder2
-					.add(params, 'bloomStrength', -5.0, 5.0)
-
-					.onChange(function (value) {
-						unrealBloom.strength = Number(value)
-					})
 				var geometry = new THREE.PlaneBufferGeometry(1, 3, 24, 24)
 				var material = new THREE.MeshStandardMaterial({
 					map: gridtexture,

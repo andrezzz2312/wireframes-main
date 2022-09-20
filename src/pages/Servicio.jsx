@@ -23,8 +23,9 @@ import styles from '../styles/pages/Servicios.module.sass'
 import Companies from '../components/Companies'
 import { AppContext } from '../context/AppContext'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js'
 //import headset from '../assets/scene/headset.gltf'
 import meta from '../assets/glb/infinite.glb'
 import headset from '../assets/glb/headset.glb'
@@ -39,6 +40,7 @@ let metaScene = false
 let headsetScene = false
 let iphoneScene = false
 let pantallaScene = false
+let cd = true
 const gltfloader = new GLTFLoader()
 const Servicio = () => {
 	const [data, setData] = useState('')
@@ -48,11 +50,10 @@ const Servicio = () => {
 	// const [threeModel, setThreeModel] = useState()
 	const [webInit, setWebInit] = useState(false)
 
-	let controls
 	function init() {
 		scene = new THREE.Scene()
 		canvas = document.getElementById('three')
-		console.log(canvas)
+
 		camera = new THREE.OrthographicCamera(
 			// 75,
 			// canvas.offsetWidth / canvas.offsetHeight,
@@ -65,14 +66,14 @@ const Servicio = () => {
 			-200,
 			1000
 		)
-		controls = new OrbitControls(camera, canvas)
+
 		renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
 		let ambient = new THREE.AmbientLight(0xffffff, 4)
 		scene.add(ambient)
 		var directional = new THREE.DirectionalLight(0xffffff, 5)
 		scene.add(directional)
 		renderer.setSize(canvas.offsetWidth, canvas.offsetHeight)
-		controls.enableZoom = false
+
 		canvas.appendChild(renderer.domElement)
 
 		// gltfloader.load(meta, (gltfScene) => {
@@ -83,7 +84,6 @@ const Servicio = () => {
 		// 	scene.add(model)
 		// 	metaScene = model
 		// })
-		camera.position.z = 10
 	}
 
 	function loadGLTF(object) {
@@ -103,7 +103,7 @@ const Servicio = () => {
 			if (object === headset) {
 				gltfScene.scene.position.y = 0
 				gltfScene.scene.rotation.y = 7
-				gltfScene.scene.rotation.x = 0.3
+				gltfScene.scene.rotation.x = 0
 				gltfScene.scene.scale.set(150, 150, 150)
 				headsetScene = model
 			}
@@ -114,22 +114,23 @@ const Servicio = () => {
 			}
 			if (object === pantalla) {
 				gltfScene.scene.position.y = -80
-				gltfScene.scene.position.z = -25
-				gltfScene.scene.scale.set(500, 500, 500)
+				gltfScene.scene.position.z = -50
+				gltfScene.scene.scale.set(450, 450, 450)
 				pantallaScene = model
 			}
 			scene.add(model)
 		})
 	}
 	function animate() {
-		controls.update()
 		requestAnimationFrame(animate)
-		//cube.rotation.x += 0.01
-		//cube.rotation.y += 0.01
+		TWEEN.update()
 		renderer.render(scene, camera)
+		if (metaScene) {
+			// console.log(metaScene.rotation.y)
+			console.log(Math.abs(metaScene.rotation.y))
+		}
 	}
 	useEffect(() => {
-		console.log('data')
 		if (data) {
 			if (!webInit) {
 				init()
@@ -444,6 +445,7 @@ const Servicio = () => {
 			case 'realidad-aumentada':
 				index = 1
 				loadGLTF(iphone)
+
 				break
 			case 'experiencias-3D':
 				index = 2
@@ -491,6 +493,233 @@ const Servicio = () => {
 						<div
 							className={`${styles.three} col-12 col-md-6 `}
 							id='three'
+							onMouseOver={() => {
+								if (cd) {
+									if (metaScene) {
+										cd = false
+										var eyebrow = new TWEEN.Tween(metaScene.rotation)
+											.to({ z: 0.5 }, 500)
+											.easing(TWEEN.Easing.Quintic.InOut)
+											.start()
+										var eyebrowback = new TWEEN.Tween(metaScene.rotation)
+											.to({ z: 0 }, 500)
+											.easing(TWEEN.Easing.Quintic.InOut)
+
+										var up = new TWEEN.Tween(metaScene.position)
+											.to({ y: 100 }, 500)
+											.easing(TWEEN.Easing.Quintic.InOut)
+											.start()
+										var down = new TWEEN.Tween(metaScene.position)
+											.to({ y: 0 }, 500)
+											.easing(TWEEN.Easing.Quintic.InOut)
+
+										eyebrow.chain(eyebrowback)
+
+										up.chain(down)
+
+										var tween = new TWEEN.Tween(metaScene.rotation)
+											.to({ y: '-' + Math.PI }, 1000)
+											.delay(300)
+											.easing(TWEEN.Easing.Exponential.InOut)
+											// .delay(1000)
+											.onComplete(function () {
+												console.log('-' + Math.PI / 1)
+												cd = true
+												if (Math.abs(metaScene.rotation.y) >= 2 * Math.PI) {
+													metaScene.rotation.y =
+														metaScene.rotation.y % (2 * Math.PI)
+													console.log('checkers')
+												}
+											})
+											.start()
+									}
+									if (headsetScene) {
+										cd = false
+										eyebrow = new TWEEN.Tween(headsetScene.rotation)
+
+											.to({ x: -0.8 }, 500)
+											.delay(500)
+											.easing(TWEEN.Easing.Quintic.InOut)
+
+										eyebrowback = new TWEEN.Tween(headsetScene.rotation)
+											.to({ x: 0 }, 500)
+											.easing(TWEEN.Easing.Quintic.InOut)
+
+										up = new TWEEN.Tween(headsetScene.position)
+											.to({ y: 100 }, 500)
+
+											.easing(TWEEN.Easing.Quintic.InOut)
+											.start()
+										down = new TWEEN.Tween(headsetScene.position)
+											.to({ y: 0 }, 500)
+											.easing(TWEEN.Easing.Quintic.InOut)
+
+										eyebrow.chain(eyebrowback)
+
+										up.chain(down)
+
+										tween = new TWEEN.Tween(headsetScene.rotation)
+											.to({ z: '-' + Math.PI / 0.5 }, 1000)
+
+											.easing(TWEEN.Easing.Back.InOut)
+											// .delay(1000)
+											.onComplete(function () {
+												cd = true
+												if (Math.abs(headsetScene.rotation.y) >= 2 * Math.PI) {
+													headsetScene.rotation.y =
+														headsetScene.rotation.y % (2 * Math.PI)
+												}
+											})
+											.start()
+									}
+									if (iphoneScene) {
+										cd = false
+										eyebrow = new TWEEN.Tween(iphoneScene.rotation)
+											.to({ z: 0.4 }, 250)
+											.easing(TWEEN.Easing.Back.Out)
+											.start()
+										eyebrowback = new TWEEN.Tween(iphoneScene.rotation)
+											.to({ z: -0.4 }, 250)
+											.easing(TWEEN.Easing.Back.Out)
+										var reset = new TWEEN.Tween(iphoneScene.rotation)
+											.to({ z: 0 }, 250)
+											.easing(TWEEN.Easing.Back.Out)
+
+										tween = new TWEEN.Tween(iphoneScene.children[3].rotation)
+											.to({ x: '-' + Math.PI / 0.5 }, 1000)
+
+											.easing(TWEEN.Easing.Quadratic.InOut)
+											// .delay(1000)
+											.onComplete(function () {
+												cd = true
+												// if (Math.abs(iphoneScene.rotation.y) >= 2 * Math.PI) {
+												// 	iphoneScene.rotation.y =
+												// 		iphoneScene.rotation.y % (2 * Math.PI)
+												// }
+											})
+										var rotoscopio = new TWEEN.Tween(
+											iphoneScene.children[3].position
+										)
+											.to({ x: 0.15 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+										var zoomclone = new TWEEN.Tween(
+											iphoneScene.children[3].scale
+										)
+											.to({ x: 1.5, y: 1.5, z: 1.5 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+										var resetzoom = new TWEEN.Tween(
+											iphoneScene.children[3].scale
+										)
+											.to({ x: 1, y: 1, z: 1 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+										var zoom = new TWEEN.Tween(iphoneScene.children[3].scale)
+											.to({ x: 1.5, y: 1.5, z: 1.5 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+										var zoom2 = new TWEEN.Tween(iphoneScene.children[3].scale)
+											.to({ x: 1, y: 1, z: 1 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+										var zoom3 = new TWEEN.Tween(iphoneScene.children[3].scale)
+											.to({ x: 0.5, y: 0.5, z: 0.5 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+										var rotoscopio2 = new TWEEN.Tween(
+											iphoneScene.children[3].position
+										)
+											.to({ x: 0, z: -0.1 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+										var rotoscopio3 = new TWEEN.Tween(
+											iphoneScene.children[3].position
+										)
+											.to({ x: -0.15 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+										var rotoscopio4 = new TWEEN.Tween(
+											iphoneScene.children[3].position
+										)
+											.to({ x: 0, z: 0.07 }, 800)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+
+										tween.repeat(4)
+										eyebrow.chain(eyebrowback)
+										eyebrowback.chain(reset)
+										reset.chain(tween, zoom)
+										zoom.chain(rotoscopio, zoom2)
+										rotoscopio.chain(rotoscopio2, zoom3)
+										rotoscopio2.chain(rotoscopio3, zoom2)
+										rotoscopio3.chain(rotoscopio4, zoomclone)
+										rotoscopio4.chain(resetzoom)
+										// reset.chain(rotoscopio)
+
+										// .start()
+									}
+									if (pantallaScene) {
+										cd = false
+
+										tween = new TWEEN.Tween(pantallaScene.children[3].rotation)
+											.to({ x: 0, y: 0.4 }, 1000)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+											// .delay(1000)
+											.onComplete(function () {
+												cd = true
+												// if (Math.abs(pantallaScene.rotation.y) >= 2 * Math.PI) {
+												// 	pantallaScene.rotation.y =
+												// 		pantallaScene.rotation.y % (2 * Math.PI)
+												// }
+											})
+											.start()
+
+										down = new TWEEN.Tween(pantallaScene.children[3].position)
+											.to({ y: -0.01 }, 1000)
+											.easing(TWEEN.Easing.Bounce.Out)
+											// .delay(1000)
+											.onComplete(function () {
+												cd = true
+												// if (Math.abs(pantallaScene.rotation.y) >= 2 * Math.PI) {
+												// 	pantallaScene.rotation.y =
+												// 		pantallaScene.rotation.y % (2 * Math.PI)
+												// }
+											})
+											.start()
+										up = new TWEEN.Tween(pantallaScene.children[3].position)
+											.to({ x: -0.25, y: 0.4 }, 250)
+											.easing(TWEEN.Easing.Quadratic.Out)
+										// .delay(1000)
+										var upper = new TWEEN.Tween(
+											pantallaScene.children[3].position
+										)
+											.to({ x: -0.12, y: 0.8 }, 250)
+											.easing(TWEEN.Easing.Quadratic.In)
+										// .delay(1000)
+
+										zoom = new TWEEN.Tween(pantallaScene.children[3].scale)
+											.to({ x: 0.9, y: 0.9, z: 0.8 }, 1000)
+											.easing(TWEEN.Easing.Cubic.In)
+										// .delay(1000)
+										var screentop = new TWEEN.Tween(
+											pantallaScene.children[3].position
+										)
+											.to({ x: 0, y: 0.48 }, 700)
+											.easing(TWEEN.Easing.Bounce.Out)
+										// .delay(1000)
+										var left = new TWEEN.Tween(
+											pantallaScene.children[3].position
+										)
+											.to({ x: -0.3 }, 1000)
+											.easing(TWEEN.Easing.Back.InOut)
+											// .delay(1000)
+											.onComplete(function () {
+												cd = true
+												// if (Math.abs(pantallaScene.rotation.y) >= 2 * Math.PI) {
+												// 	pantallaScene.rotation.y =
+												// 		pantallaScene.rotation.y % (2 * Math.PI)
+												// }
+											})
+										down.chain(left)
+										left.chain(up, zoom)
+										up.chain(upper)
+										upper.chain(screentop)
+										// tween.chain(down)
+									}
+								}
+							}}
 						></div>
 
 						{/* <img
