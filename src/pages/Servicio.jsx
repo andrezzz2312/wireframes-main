@@ -654,7 +654,10 @@ const Servicio = () => {
 										cd = false
 
 										tween = new TWEEN.Tween(pantallaScene.children[3].rotation)
-											.to({ x: 0, y: 0.4 }, 1000)
+											.to(
+												{ x: 0, y: pantallaScene.children[3].rotation.y - 0.4 },
+												1000
+											)
 											.easing(TWEEN.Easing.Quadratic.InOut)
 											// .delay(1000)
 											.onComplete(function () {
@@ -679,43 +682,45 @@ const Servicio = () => {
 											})
 											.start()
 										up = new TWEEN.Tween(pantallaScene.children[3].position)
-											.to({ x: -0.25, y: 0.4 }, 250)
-											.easing(TWEEN.Easing.Quadratic.Out)
-										// .delay(1000)
-										var upper = new TWEEN.Tween(
-											pantallaScene.children[3].position
-										)
-											.to({ x: -0.12, y: 0.8 }, 250)
-											.easing(TWEEN.Easing.Quadratic.In)
+											.to({ x: 0, y: 0.2 }, 200)
+											.delay(300)
+											.easing(TWEEN.Easing.Quadratic.InOut)
 										// .delay(1000)
 
-										zoom = new TWEEN.Tween(pantallaScene.children[3].scale)
-											.to({ x: 0.9, y: 0.9, z: 0.8 }, 1000)
-											.easing(TWEEN.Easing.Cubic.In)
-										// .delay(1000)
-										var screentop = new TWEEN.Tween(
-											pantallaScene.children[3].position
-										)
-											.to({ x: 0, y: 0.48 }, 700)
-											.easing(TWEEN.Easing.Bounce.Out)
-										// .delay(1000)
 										var left = new TWEEN.Tween(
 											pantallaScene.children[3].position
 										)
 											.to({ x: -0.3 }, 1000)
 											.easing(TWEEN.Easing.Back.InOut)
+										// .delay(1000)
+
+										var spin = new TWEEN.Tween(
+											pantallaScene.children[3].rotation
+										)
+											.to(
+												{
+													x: Math.abs('-' + Math.PI / 0.44),
+													y: Math.abs('-' + Math.PI / 0.573),
+												},
+												1000
+											)
+
+											.easing(TWEEN.Easing.Back.InOut)
 											// .delay(1000)
 											.onComplete(function () {
 												cd = true
-												// if (Math.abs(pantallaScene.rotation.y) >= 2 * Math.PI) {
-												// 	pantallaScene.rotation.y =
-												// 		pantallaScene.rotation.y % (2 * Math.PI)
-												// }
+
+												if (
+													Math.abs(pantallaScene.children[3].rotation.y) >=
+													2 * Math.PI
+												) {
+													pantallaScene.children[3].rotation.y =
+														pantallaScene.children[3].rotation.y % (2 * Math.PI)
+												}
 											})
 										down.chain(left)
-										left.chain(up, zoom)
-										up.chain(upper)
-										upper.chain(screentop)
+										left.chain(spin, up)
+
 										// tween.chain(down)
 									}
 								}
