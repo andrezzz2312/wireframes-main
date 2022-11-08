@@ -37,7 +37,7 @@ const Portafolio = () => {
 			title: 'Blue Moon',
 			topic: 'Servicios de Metaverso',
 			image: Project4,
-			link: '',
+			link: 'https://wireframereality.com/webprojects/blue-moon/',
 		},
 
 		{
