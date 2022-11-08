@@ -47,13 +47,17 @@ const Footer = () => {
 								<a className={styles.Data_Item} href='tel:+0984886441'>
 									0984886441
 								</a>
-								<FontAwesomeIcon icon={faPhone} />
+								{/* <FontAwesomeIcon icon={faPhone} />
 								<a className={styles.Data_Item} href='tel:+593 4-504-5717'>
 									593 4-504-5717
-								</a>
+								</a> */}
 								<FontAwesomeIcon icon={faLocationDot} />
 								<span className={styles.Data_Item}>
-									Oficina 703 Piso 7 - City Office
+									Parque empresarial Colon
+									<br />
+									Torre empresarial 1
+									<br />
+									Piso 2 - Oficina 206
 								</span>
 							</div>
 							<div className={styles.Data_Networks}>

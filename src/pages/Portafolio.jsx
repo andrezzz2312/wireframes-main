@@ -1,4 +1,5 @@
 import { useEffect, useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import { AppContext } from '../context/AppContext'
@@ -55,7 +56,7 @@ const Portafolio = () => {
 			title: 'One Laptop Per Kid',
 			topic: 'Experiencias 3D en la Web',
 			image: Project6,
-			link: '',
+			link: 'https://wireframereality.com/webprojects/wireframe-laptop',
 		},
 		{
 			title: 'Furniture Configurator',
@@ -165,9 +166,10 @@ const Portafolio = () => {
 				<section className={`${styles.Hero_Container_Fluid} container-fluid`}>
 					<div className={`${styles.Project_Cards_Container} row`}>
 						{projects.map((project, index) => (
-							<div
+							<a
+								className={`${styles.Project_Card_Link} col-12 col-sm-6 col-md-4 p-0`}
 								key={`Project-Card-${index}`}
-								className='col-12 col-sm-6 col-md-4 p-0 '
+								href={project.link}
 							>
 								<div data-aos='zoom-in'>
 									<div className={styles.Project_Card}>
@@ -187,7 +189,7 @@ const Portafolio = () => {
 										</div>
 									</div>
 								</div>
-							</div>
+							</a>
 						))}
 					</div>
 				</section>
@@ -252,29 +254,6 @@ const Portafolio = () => {
 									</div>
 								</a>
 							)
-						return (
-							<div
-								key={`Project-Card-${index}`}
-								className='col-12 col-sm-6 col-md-4 p-0'
-							>
-								<div className={styles.Project_Card} data-aos='zoom-in'>
-									<img
-										className={styles.Project_Image}
-										src={project.image}
-										alt={project.title}
-										title={project.title}
-									/>
-									<div className={styles.Project_Topic_Container}>
-										<span className={styles.Project_Topic}>
-											{project.topic}
-										</span>
-									</div>
-									<div className={styles.Project_Title_Container}>
-										<h4 className={styles.Project_Title}>{project.title}</h4>
-									</div>
-								</div>
-							</div>
-						)
 					})}
 				</div>
 			</section>
