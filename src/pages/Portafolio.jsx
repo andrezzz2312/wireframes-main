@@ -32,6 +32,20 @@ const Portafolio = () => {
 			image: Project2,
 			link: '',
 		},
+
+		{
+			title: 'Holding',
+			topic: 'Servicios de Metaverso',
+			image: Project4,
+			link: 'https://wireframereality.com/webprojects/blue-moon/',
+		},
+
+		{
+			title: 'Mansion Legion',
+			topic: 'Servicios de Metaverso',
+			image: Project5,
+			link: 'https://wireframereality.com/webprojects/legion-masion/  ',
+		},
 		{
 			title: 'Green Filters',
 			topic: 'Experiencias 3D en la Web',
