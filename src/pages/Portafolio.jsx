@@ -24,26 +24,12 @@ const Portafolio = () => {
 			title: 'Luxury Apartment',
 			topic: 'Realidad Virtual',
 			image: Project1,
-			link: 'https://wireframereality.com/Verge3D/studio_apartment/',
+			link: 'https://wireframereality.com/webprojects/studio_apartment/',
 		},
 		{
-			title: 'Streaming Room',
+			title: 'Galaxy',
 			topic: 'Servicios de Metaverso',
 			image: Project2,
-			link: '',
-		},
-
-		{
-			title: 'Blue Moon',
-			topic: 'Servicios de Metaverso',
-			image: Project4,
-			link: '',
-		},
-
-		{
-			title: 'Bill & Melinda Gates Foundation',
-			topic: 'Servicios de Metaverso',
-			image: Project5,
 			link: '',
 		},
 		{
@@ -52,11 +38,32 @@ const Portafolio = () => {
 			image: Project3,
 			link: '',
 		},
+
+		{
+			title: 'Holding',
+			topic: 'Servicios de Metaverso',
+			image: Project4,
+			link: '',
+		},
+
+		{
+			title: 'Mansion Legion',
+			topic: 'Servicios de Metaverso',
+			image: Project5,
+			link: 'https://wireframereality.com/webprojects/legion-masion/  ',
+		},
+
 		{
 			title: 'One Laptop Per Kid',
 			topic: 'Experiencias 3D en la Web',
 			image: Project6,
 			link: 'https://wireframereality.com/webprojects/wireframe-laptop',
+		},
+		{
+			title: 'Furniture A/R',
+			topic: 'Realidad Aumentada',
+			image: Project7,
+			link: 'https://wireframereality.com/webprojects/recliner/',
 		},
 		{
 			title: 'Furniture Configurator',
@@ -70,22 +77,17 @@ const Portafolio = () => {
 			image: Project9,
 			link: 'https://wireframereality.com/Verge3D/lab_simulation/',
 		},
-		{
-			title: 'Furniture A/R',
-			topic: 'Realidad Aumentada',
-			image: Project7,
-			link: '',
-		},
 	]
+
 	const projectsEn = [
 		{
 			title: 'Luxury Apartment',
 			topic: 'Virtual Reality',
 			image: Project1,
-			link: 'https://wireframereality.com/Verge3D/studio_apartment/',
+			link: 'https://wireframereality.com/webprojects/studio_apartment/',
 		},
 		{
-			title: 'Streaming Room',
+			title: 'Galaxy',
 			topic: 'Metaverse Services',
 			image: Project2,
 			link: '',
@@ -97,28 +99,28 @@ const Portafolio = () => {
 			link: '',
 		},
 		{
-			title: 'Blue Moon',
+			title: 'Holding',
 			topic: 'Metaverse Services',
 			image: Project4,
 			link: '',
 		},
 		{
-			title: 'Bill & Melinda Gates Foundation',
+			title: 'Mansion Legion',
 			topic: 'Metaverse Services',
 			image: Project5,
-			link: '',
+			link: 'https://wireframereality.com/webprojects/legion-masion/  ',
 		},
 		{
 			title: 'One Laptop Per Kid',
 			topic: '3D Web Experiencies',
 			image: Project6,
-			link: '',
+			link: 'https://wireframereality.com/webprojects/wireframe-laptop',
 		},
 		{
 			title: 'Furniture A/R',
 			topic: 'Augmented Reality',
 			image: Project7,
-			link: '',
+			link: 'https://wireframereality.com/webprojects/recliner/',
 		},
 		{
 			title: 'Furniture Configurator',
