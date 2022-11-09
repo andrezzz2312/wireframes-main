@@ -30,7 +30,7 @@ const Portafolio = () => {
 			title: 'Galaxy',
 			topic: 'Servicios de Metaverso',
 			image: Project2,
-			link: '',
+			link: 'wireframereality.com/webprojects/galaxy/',
 		},
 
 		{
@@ -104,7 +104,7 @@ const Portafolio = () => {
 			title: 'Galaxy',
 			topic: 'Metaverse Services',
 			image: Project2,
-			link: '',
+			link: 'wireframereality.com/webprojects/galaxy/',
 		},
 		{
 			title: 'Green Filters',
