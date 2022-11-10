@@ -22,72 +22,55 @@ const Portafolio = () => {
 	const projects = [
 		{
 			title: 'Luxury Apartment',
-			topic: 'Realidad Virtual',
+			topic: 'Virtual Reality',
 			image: Project1,
 			link: 'https://wireframereality.com/webprojects/studio_apartment/',
 		},
 		{
 			title: 'Galaxy',
-			topic: 'Servicios de Metaverso',
+			topic: 'Metaverse Services',
 			image: Project2,
 			link: 'wireframereality.com/webprojects/galaxy/',
 		},
-
-		{
-			title: 'Holding',
-			topic: 'Servicios de Metaverso',
-			image: Project4,
-			link: 'https://wireframereality.com/webprojects/blue-moon/',
-		},
-
-		{
-			title: 'Mansion Legion',
-			topic: 'Servicios de Metaverso',
-			image: Project5,
-			link: 'https://wireframereality.com/webprojects/legion-masion/  ',
-		},
 		{
 			title: 'Green Filters',
-			topic: 'Experiencias 3D en la Web',
+			topic: '3D Web Experiencies',
 			image: Project3,
 			link: '',
 		},
-
 		{
-			title: 'Holding',
-			topic: 'Servicios de Metaverso',
+			title: 'Machine Showcase',
+			topic: 'Metaverse Services',
 			image: Project4,
 			link: '',
 		},
-
 		{
-			title: 'Mansion Legion',
-			topic: 'Servicios de Metaverso',
+			title: 'Legion Mansion',
+			topic: 'Metaverse Services',
 			image: Project5,
 			link: 'https://wireframereality.com/webprojects/legion-masion/  ',
 		},
-
 		{
-			title: 'One Laptop Per Kid',
-			topic: 'Experiencias 3D en la Web',
+			title: 'Laptop',
+			topic: '3D Web Experiencies',
 			image: Project6,
 			link: 'https://wireframereality.com/webprojects/wireframe-laptop',
 		},
 		{
-			title: 'Furniture A/R',
-			topic: 'Realidad Aumentada',
+			title: 'A/R Furniture',
+			topic: 'Augmented Reality',
 			image: Project7,
 			link: 'https://wireframereality.com/webprojects/recliner/',
 		},
 		{
 			title: 'Furniture Configurator',
-			topic: 'Experiencias 3D en la Web',
+			topic: '3D Web Experiencies',
 			image: Project8,
 			link: 'https://wireframereality.com/Verge3D/furniture_configurator_v2/',
 		},
 		{
 			title: 'Syringe Assenbly Simulation',
-			topic: 'Experiencias 3D en la Web',
+			topic: '3D Web Experiencies',
 			image: Project9,
 			link: 'https://wireframereality.com/Verge3D/lab_simulation/',
 		},
@@ -113,25 +96,25 @@ const Portafolio = () => {
 			link: '',
 		},
 		{
-			title: 'Holding',
+			title: 'Machine Showcase',
 			topic: 'Metaverse Services',
 			image: Project4,
 			link: '',
 		},
 		{
-			title: 'Mansion Legion',
+			title: 'Legion Mansion',
 			topic: 'Metaverse Services',
 			image: Project5,
 			link: 'https://wireframereality.com/webprojects/legion-masion/  ',
 		},
 		{
-			title: 'One Laptop Per Kid',
+			title: 'Laptop',
 			topic: '3D Web Experiencies',
 			image: Project6,
 			link: 'https://wireframereality.com/webprojects/wireframe-laptop',
 		},
 		{
-			title: 'Furniture A/R',
+			title: 'A/R Furniture',
 			topic: 'Augmented Reality',
 			image: Project7,
 			link: 'https://wireframereality.com/webprojects/recliner/',
