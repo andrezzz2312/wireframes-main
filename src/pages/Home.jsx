@@ -104,6 +104,7 @@ const Home = () => {
 
 			const controls = new OrbitControls(camera, elem)
 			controls.enableZoom = false
+			controls.enablePan = false
 
 			{
 				const color = 0xffffff

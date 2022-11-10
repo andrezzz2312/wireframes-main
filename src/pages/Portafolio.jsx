@@ -30,13 +30,13 @@ const Portafolio = () => {
 			title: 'Galaxy',
 			topic: 'Metaverse Services',
 			image: Project2,
-			link: 'wireframereality.com/webprojects/galaxy/',
+			link: 'https://wireframereality.com/webprojects/galaxy/',
 		},
 		{
 			title: 'Green Filters',
 			topic: '3D Web Experiencies',
 			image: Project3,
-			link: '',
+			link: 'https://wireframereality.com/webprojects/filters/',
 		},
 		{
 			title: 'Machine Showcase',
@@ -87,7 +87,7 @@ const Portafolio = () => {
 			title: 'Galaxy',
 			topic: 'Metaverse Services',
 			image: Project2,
-			link: 'wireframereality.com/webprojects/galaxy/',
+			link: 'https://wireframereality.com/webprojects/galaxy/',
 		},
 		{
 			title: 'Green Filters',
