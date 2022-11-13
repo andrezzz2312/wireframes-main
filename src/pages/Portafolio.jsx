@@ -54,7 +54,7 @@ const Portafolio = () => {
 			title: 'Laptop',
 			topic: '3D Web Experiencies',
 			image: Project6,
-			link: 'https://wireframereality.com/webprojects/wireframe-laptop',
+			link: 'https://wireframereality.com/webprojects/laptop',
 		},
 		{
 			title: 'A/R Furniture',
@@ -111,7 +111,7 @@ const Portafolio = () => {
 			title: 'Laptop',
 			topic: '3D Web Experiencies',
 			image: Project6,
-			link: 'https://wireframereality.com/webprojects/wireframe-laptop',
+			link: 'https://wireframereality.com/webprojects/laptop',
 		},
 		{
 			title: 'A/R Furniture',
