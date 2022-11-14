@@ -27,7 +27,7 @@
  
 .box
   display: inline-block
-  width: 30rem  
+  width: 100%  
   height: 30rem
   
 
@@ -35,7 +35,9 @@
   
 .threed
   margin: 1em auto
-  max-width: 500px  
+  // max-width: 500px
+  width: 50%
+  width: 50%  
   font-size: xx-large
   display: block
  
@@ -717,7 +719,7 @@
   .Sector_Slide
     height: 300px !important
 
-@media (max-width: 385px)
+@media (max-width: 420px)
   .Visor
     &_Button
       height: 70px
@@ -725,3 +727,14 @@
       border-radius: 14px
       bottom: -50px
       left: calc(50% - 35px)
+  .threed
+    margin: 1em auto
+    // max-width: 500px
+    width: 100%
+    pointer-events: none
+    height: 50%
+    display: block
+ 
+  .background
+    pointer-events: none
+
