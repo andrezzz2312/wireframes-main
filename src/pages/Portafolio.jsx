@@ -28,7 +28,7 @@ const Portafolio = () => {
 		},
 		{
 			title: 'Galaxy',
-			topic: 'Metaverse Services',
+			topic: '3D Web Experiencies',
 			image: Project2,
 			link: 'https://wireframereality.com/webprojects/galaxy/',
 		},
@@ -40,9 +40,9 @@ const Portafolio = () => {
 		},
 		{
 			title: 'Machine Showcase',
-			topic: 'Metaverse Services',
+			topic: '3D Web Experiencies',
 			image: Project4,
-			link: '',
+			link: 'https://wireframereality.com/webprojects/RPC-HV/',
 		},
 		{
 			title: 'Legion Mansion',
