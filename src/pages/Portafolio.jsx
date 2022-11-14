@@ -24,7 +24,7 @@ const Portafolio = () => {
 			title: 'Luxury Apartment',
 			topic: 'Virtual Reality',
 			image: Project1,
-			link: 'https://wireframereality.com/webprojects/studio_apartment/',
+			link: 'https://wireframereality.com/webprojects/luxury_apt/',
 		},
 		{
 			title: 'Galaxy',
