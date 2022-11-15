@@ -66,7 +66,7 @@ const Portafolio = () => {
 			title: 'Furniture Configurator',
 			topic: '3D Web Experiencies',
 			image: Project8,
-			link: 'https://wireframereality.com/webprojects/furniture_configurator_v2/',
+			link: 'https://wireframereality.com/webprojects/furniture_configurator/',
 		},
 		{
 			title: 'Syringe Assenbly Simulation',
@@ -123,7 +123,7 @@ const Portafolio = () => {
 			title: 'Furniture Configurator',
 			topic: '3D Web Experiencies',
 			image: Project8,
-			link: 'https://wireframereality.com/webprojects/furniture_configurator_v2/',
+			link: 'https://wireframereality.com/webprojects/furniture_configurator/',
 		},
 		{
 			title: 'Syringe Assenbly Simulation',
