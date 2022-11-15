@@ -66,13 +66,13 @@ const Portafolio = () => {
 			title: 'Furniture Configurator',
 			topic: '3D Web Experiencies',
 			image: Project8,
-			link: 'https://wireframereality.com/Verge3D/furniture_configurator_v2/',
+			link: 'https://wireframereality.com/webprojects/furniture_configurator_v2/',
 		},
 		{
 			title: 'Syringe Assenbly Simulation',
 			topic: '3D Web Experiencies',
 			image: Project9,
-			link: 'https://wireframereality.com/Verge3D/lab_simulation/',
+			link: 'https://wireframereality.com/webprojects/lab_simulation/',
 		},
 	]
 
@@ -123,13 +123,13 @@ const Portafolio = () => {
 			title: 'Furniture Configurator',
 			topic: '3D Web Experiencies',
 			image: Project8,
-			link: 'https://wireframereality.com/Verge3D/furniture_configurator_v2/',
+			link: 'https://wireframereality.com/webprojects/furniture_configurator_v2/',
 		},
 		{
 			title: 'Syringe Assenbly Simulation',
 			topic: '3D Web Experiencies',
 			image: Project9,
-			link: 'https://wireframereality.com/Verge3D/lab_simulation/',
+			link: 'https://wireframereality.com/webprojects/lab_simulation/',
 		},
 	]
 
