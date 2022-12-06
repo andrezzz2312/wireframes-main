@@ -158,9 +158,9 @@ const Footer = () => {
 						className={`${styles.Main_Data_Container} col-12 col-lg-4 mb-5 pb-5 pb-lg-0 ps-0`}
 					>
 						<h4 className={styles.Title}>
-							What is your idea?
+							What’s your idea?
 							<br />
-							Tell us
+							Tell us!
 						</h4>
 						<div className={styles.Data_Container}>
 							<FontAwesomeIcon icon={faEnvelope} />

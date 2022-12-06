@@ -698,13 +698,6 @@ const Home = () => {
 									</Link>
 								</div>
 							</div>
-							{/* <img
-							src={Planet}
-							className={styles.Hero_Image}
-							alt="Wireframes Planet"
-							data-aos="zoom-in"
-						/> */}
-							{/* <canvas id='c' className={styles.c}> */}
 							<div className={styles.threed}>
 								<span
 									id='box'
@@ -712,8 +705,6 @@ const Home = () => {
 									className={` ${styles.box}`}
 								></span>
 							</div>
-
-							{/* </canvas> */}
 						</div>
 					</div>
 
@@ -1194,9 +1185,8 @@ const Home = () => {
 						<div className={styles.Hero_Title_Container}>
 							<h1 className={styles.Hero_Title} data-aos='fade-up'>
 								<div className={styles.Hero_Title_Variable} ref={titleRef}>
-									{titlesEn[title]}
+									{titles[title]}
 								</div>
-								<br />
 								Services
 							</h1>
 							<h3
@@ -1212,20 +1202,19 @@ const Home = () => {
 							<div data-aos='fade-up' data-aos-delay='500'>
 								<Link
 									to='/contacto'
-									className={styles.Hero_Link}
-									data-aos='fade-up'
-									data-aos-delay='500'
+									className={`${styles.Hero_Link} transition-all`}
 								>
 									Contact Us
 								</Link>
 							</div>
 						</div>
-						<img
-							src={Planet}
-							className={styles.Hero_Image}
-							alt='Wireframes Planet'
-							data-aos='zoom-in'
-						/>
+						<div className={styles.threed}>
+							<span
+								id='box'
+								data-diagram='box'
+								className={` ${styles.box}`}
+							></span>
+						</div>
 					</div>
 				</div>
 
@@ -1238,7 +1227,7 @@ const Home = () => {
 							<span className={styles.Visor_Text}>
 								Come and{' '}
 								<span className={styles.Visor_Text_Highlight}>
-									see our work!
+									check our work!
 								</span>
 							</span>
 							<Link to='/portafolio' className={styles.Visor_Button}>
@@ -1627,6 +1616,22 @@ const Home = () => {
 
 			{/* Idea */}
 			<section className={styles.Idea}>
+				<div className={styles.Idea_ImageContainer}>
+					<img
+						className={styles.Idea_Image}
+						src={lamparaA}
+						width={200}
+						alt='Do you have a good idea?'
+					/>
+					<img
+						className={`${styles.Idea_Image} ${styles.Idea_lamparaP}`}
+						src={lamparaP}
+						width={530}
+						id='lamparaP'
+						alt='and don’t know how to develop it?'
+					/>
+				</div>
+
 				<div className={styles.Idea_Text_Container}>
 					<h2 className={styles.Idea_Title} data-aos='fade-up'>
 						Do you have a good idea
@@ -1635,14 +1640,16 @@ const Home = () => {
 						and don’t know how to develop it?
 					</p>
 
-					<Link
-						to='/contacto'
-						className={styles.Idea_Button}
-						data-aos='fade-up'
-						data-aos-delay='250'
-					>
-						LET’S TALK
-					</Link>
+					<div data-aos='fade-up' data-aos-delay='250'>
+						<Link
+							to='/contacto'
+							className={styles.Idea_Button}
+							onMouseEnter={show}
+							onMouseLeave={hide}
+						>
+							LET’S TALK
+						</Link>
+					</div>
 				</div>
 				<img
 					src={DetailWhite}
@@ -1652,13 +1659,16 @@ const Home = () => {
 			</section>
 
 			{/* Contact */}
-			<section
-				className={`${styles.Contact_Fluid_Container} container-fluid py-5`}
-			>
-				<div className={`${styles.Contact} container p-0`}>
+			<div className={`${styles.Contact_Fluid_Container} `}>
+				<span
+					id='background'
+					data-diagram='background'
+					className={`${styles.background} `}
+				></span>
+				{/* <div className={`${styles.Contact} container `}>
 					<Form />
-				</div>
-			</section>
+				</div> */}
+			</div>
 		</main>
 	)
 }
