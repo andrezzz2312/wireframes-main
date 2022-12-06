@@ -1185,7 +1185,7 @@ const Home = () => {
 						<div className={styles.Hero_Title_Container}>
 							<h1 className={styles.Hero_Title} data-aos='fade-up'>
 								<div className={styles.Hero_Title_Variable} ref={titleRef}>
-									{titles[title]}
+									{titlesEn[title]}
 								</div>
 								Services
 							</h1>
